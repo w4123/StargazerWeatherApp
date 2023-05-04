@@ -86,7 +86,6 @@ fun StargazerWeatherAppBar(
     onDetailsClick: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
-    val textState = remember { mutableStateOf(TextFieldValue("")) }
     TopAppBar(
         title = {
             SearchBar(query = "Cambridge", onQueryChange = {

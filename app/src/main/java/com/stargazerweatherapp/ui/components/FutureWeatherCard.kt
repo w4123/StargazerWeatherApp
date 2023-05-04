@@ -74,5 +74,10 @@ fun WeatherItem(weather: DailyWeather) {
             textAlign = TextAlign.Center,
             fontSize = 12.sp
         )
+        Text(
+            text = "Sunset: " + weather.sunsetTime,
+            textAlign = TextAlign.Center,
+            fontSize = 10.sp
+        )
     }
 }

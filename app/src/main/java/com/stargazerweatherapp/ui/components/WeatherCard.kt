@@ -39,8 +39,8 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                     )
                     Text(text = "${nonNullWeather.temperature}°C", fontSize = 48.sp)
                 }
-                Text(text = "WindDirection: ${nonNullWeather.windDirection}")
-                Text(text = "Wind: ${nonNullWeather.windSpeed} m/s")
+                Text(text = "WindDirection: ${nonNullWeather.windDirection}°")
+                Text(text = "Wind: ${nonNullWeather.windSpeed} km/h")
             }
         }
     }

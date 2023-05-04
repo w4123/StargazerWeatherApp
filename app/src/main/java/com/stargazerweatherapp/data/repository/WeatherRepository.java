@@ -74,7 +74,7 @@ public class WeatherRepository {
                 .addPathSegment("forecast")
                 .addQueryParameter("latitude", location.getLatitude().toString())
                 .addQueryParameter("longitude", location.getLongitude().toString())
-                .addQueryParameter("daily", "temperature_2m_max,temperature_2m_min,weathercode")
+                .addQueryParameter("daily", "temperature_2m_max,temperature_2m_min,weathercode,sunset")
                 .addQueryParameter("timezone", "auto")
                 .build();
 
@@ -89,6 +89,7 @@ public class WeatherRepository {
             JSONArray time = daily.getJSONArray("time");
             JSONArray temperature_2m_min = daily.getJSONArray("temperature_2m_min");
             JSONArray temperature_2m_max = daily.getJSONArray("temperature_2m_max");
+            JSONArray sunset = daily.getJSONArray("sunset");
             JSONArray weathercode = daily.getJSONArray("weathercode");
             for (int i = 0; i < time.length(); i++) {
                 result.add(
@@ -96,6 +97,7 @@ public class WeatherRepository {
                                 location,
                                 temperature_2m_max.getDouble(i),
                                 temperature_2m_min.getDouble(i),
+                                sunset.getString(i).substring(time.getString(i).length() + 1),
                                 new WeatherType(weathercode.getInt(i)))
                 );
             }
