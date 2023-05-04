@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -50,8 +52,8 @@ fun FutureWeatherCard(weatherData: List<DailyWeather>?) {
 fun WeatherItem(weather: DailyWeather) {
     Column(
         modifier = Modifier
-            .width(110.dp)
-            .height(140.dp)
+            .requiredWidth(110.dp)
+            .requiredHeight(140.dp)
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -30,7 +30,7 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = nonNullWeather.location.name, fontSize = 24.sp)
-                Text(text = nonNullWeather.weatherType.description.capitalize(), fontSize = 18.sp)
+                Text(text = nonNullWeather.weatherType.description, fontSize = 18.sp)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = stringResource(id = nonNullWeather.weatherType.icon),
@@ -41,6 +41,10 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 }
                 Text(text = "WindDirection: ${nonNullWeather.windDirection}°")
                 Text(text = "Wind: ${nonNullWeather.windSpeed} km/h")
+                Text(text = "SomeLightPollutionInfo")
+                Text(text = "SomeMoonPhaseInfo")
+                Text(text = "SomeCloudCoverInfo")
+                Text(text = "SomeTransparency/VisibilityInfo")
             }
         }
     }

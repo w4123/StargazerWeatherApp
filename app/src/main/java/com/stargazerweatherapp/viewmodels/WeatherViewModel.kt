@@ -33,7 +33,7 @@ class WeatherViewModel(
             try {
                 withContext(Dispatchers.IO) {
                     val defaultLocation = locationRepository.locationData.find {
-                        it.name.contains("Cambridge")
+                        it.name.equals("Cambridge")
                     }!!
                     currentWeather.value = weatherRepository.getCurrentWeatherData(defaultLocation);
                     futureWeather.value = weatherRepository.getFutureWeatherData(defaultLocation)

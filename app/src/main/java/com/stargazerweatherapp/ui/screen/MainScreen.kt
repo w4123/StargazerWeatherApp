@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.SearchView
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -48,10 +52,10 @@ fun MainScreen(
             )
         }
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(16.dp).fillMaxHeight()) {
             WeatherCard(
                 weather = weatherViewModel.currentWeather.value,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.weight(1f)
             )
             FutureWeatherCard(
                 weatherData = weatherViewModel.futureWeather.value
