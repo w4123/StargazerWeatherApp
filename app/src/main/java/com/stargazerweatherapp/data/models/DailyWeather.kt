@@ -3,11 +3,10 @@ package com.stargazerweatherapp.data.models
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class Weather(
+data class DailyWeather(
     val time: String,
     val location: Location,
-    val temperature : Double,
-    val windSpeed: Double,
-    val windDirection: Double,
+    val temperatureMax : Double,
+    val temperatureMin : Double,
     val weatherType: WeatherType
 )

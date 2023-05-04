@@ -9,7 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.stargazerweatherapp.ui.screens.DetailsScreen
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
@@ -29,16 +28,6 @@ class MainActivity : ComponentActivity() {
                             navigateToSettingsScreen = { navController.navigate("settings") }
                         )
                     }
-                    composable("details") {
-                        DetailsScreen(
-                            onBackClick = { navController.popBackStack() }
-                        )
-                    }
-                    //composable("settings") {
-                    //    SettingsScreen(
-                    //        onBackClick = { navController.popBackStack() }
-                    //    )
-                    //}
                 }
             }
         }

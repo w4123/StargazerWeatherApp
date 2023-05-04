@@ -1,5 +1,6 @@
 package com.stargazerweatherapp.ui.screens
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.SearchView
 import androidx.compose.foundation.layout.Column
@@ -24,10 +25,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.stargazerweatherapp.data.models.Weather
+import com.stargazerweatherapp.data.models.WeatherType
+import com.stargazerweatherapp.ui.components.FutureWeatherCard
 //import com.stargazerweatherapp.ui.components.AstronomyCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
@@ -45,8 +50,11 @@ fun MainScreen(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             WeatherCard(
-                weather = weatherViewModel.weather.value,
+                weather = weatherViewModel.currentWeather.value,
                 modifier = Modifier.padding(bottom = 16.dp)
+            )
+            FutureWeatherCard(
+                weatherData = weatherViewModel.futureWeather.value
             )
         }
     }
