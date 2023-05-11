@@ -34,11 +34,14 @@ import com.stargazerweatherapp.data.models.DailyWeather
 import com.stargazerweatherapp.data.models.Weather
 
 @Composable
-fun FutureWeatherCard(weatherData: List<DailyWeather>?) {
+fun FutureWeatherCard(
+    weatherData: List<DailyWeather>?,
+    modifier: Modifier = Modifier.fillMaxWidth()
+) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(16.dp),
     ) {
         if (weatherData != null) {
             items(weatherData) {
