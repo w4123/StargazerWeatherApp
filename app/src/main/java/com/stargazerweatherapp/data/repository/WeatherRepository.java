@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -36,6 +37,7 @@ public class WeatherRepository {
                 .addQueryParameter("latitude", location.getLatitude().toString())
                 .addQueryParameter("longitude", location.getLongitude().toString())
                 .addQueryParameter("current_weather", "true")
+                .addQueryParameter("hourly","cloudcover")
                 .build();
 
         Request request = new Request.Builder()
@@ -44,13 +46,17 @@ public class WeatherRepository {
 
         try (Response response = client.newCall(request).execute()) {
             JSONObject obj = new JSONObject(response.body().string());
+            JSONObject hourly = obj.getJSONObject("hourly");
+            Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
             return new Weather(
                     obj.getJSONObject("current_weather").getString("time"),
                     location,
                     obj.getJSONObject("current_weather").getDouble("temperature"),
                     obj.getJSONObject("current_weather").getDouble("windspeed"),
                     obj.getJSONObject("current_weather").getDouble("winddirection"),
-                    new WeatherType(obj.getJSONObject("current_weather").getInt("weathercode"))
+                    new WeatherType(obj.getJSONObject("current_weather").getInt("weathercode")),
+                    hourly.getJSONArray("cloudcover").getInt(hour)
             );
         }
         catch (IOException e) {

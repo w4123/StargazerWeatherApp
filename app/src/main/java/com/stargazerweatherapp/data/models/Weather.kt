@@ -9,5 +9,6 @@ data class Weather(
     val temperature : Double,
     val windSpeed: Double,
     val windDirection: Double,
-    val weatherType: WeatherType
+    val weatherType: WeatherType,
+    val cloudCover : Int
 )
