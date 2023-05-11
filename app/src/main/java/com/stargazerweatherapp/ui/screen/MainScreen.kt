@@ -60,10 +60,13 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.models.WeatherType
+import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.ui.components.FutureWeatherCard
 //import com.stargazerweatherapp.ui.components.AstronomyCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
+import kotlin.math.max
+import kotlin.math.min
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -100,7 +103,7 @@ fun MainScreen(
 fun MySearchBar() {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
-
+    var loc = LocationRepository()
     Box(
         Modifier
             .semantics { isContainer = true }
@@ -125,12 +128,13 @@ fun MySearchBar() {
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items(4) { idx ->
-                    val resultText = "Suggestion $idx"
+                val possibleLocations = loc.locationData.filter {
+                    it.name.startsWith(text, true)
+                }
+                items(possibleLocations.size) { idx ->
+                    val resultText = possibleLocations[idx].name
                     ListItem(
                         headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
-                        leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
                         modifier = Modifier.clickable {
                             text = resultText
                             active = false
