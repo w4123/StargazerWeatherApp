@@ -37,7 +37,7 @@ public class WeatherRepository {
                 .addQueryParameter("latitude", location.getLatitude().toString())
                 .addQueryParameter("longitude", location.getLongitude().toString())
                 .addQueryParameter("current_weather", "true")
-                .addQueryParameter("hourly","cloudcover")
+                .addQueryParameter("hourly","cloudcover,visibility")
                 .build();
 
         Request request = new Request.Builder()
@@ -56,7 +56,8 @@ public class WeatherRepository {
                     obj.getJSONObject("current_weather").getDouble("windspeed"),
                     obj.getJSONObject("current_weather").getDouble("winddirection"),
                     new WeatherType(obj.getJSONObject("current_weather").getInt("weathercode")),
-                    hourly.getJSONArray("cloudcover").getInt(hour)
+                    hourly.getJSONArray("cloudcover").getInt(hour),
+                    hourly.getJSONArray("visibility").getInt(hour)
             );
         }
         catch (IOException e) {
@@ -82,7 +83,7 @@ public class WeatherRepository {
                 .addQueryParameter("longitude", location.getLongitude().toString())
                 .addQueryParameter("daily", "temperature_2m_max,temperature_2m_min,sunset")
                 .addQueryParameter("timezone", "auto")
-                .addQueryParameter("hourly", "cloudcover,weathercode")
+                .addQueryParameter("hourly", "cloudcover,weathercode,visibility")
                 .addQueryParameter("is_day", "0")
                 .build();
 
@@ -103,9 +104,9 @@ public class WeatherRepository {
             JSONArray sunset = daily.getJSONArray("sunset");
             JSONArray hourlyWeathercode = hourly.getJSONArray("weathercode");
             JSONArray hourlyCloudcover = hourly.getJSONArray("cloudcover");
+            JSONArray hourlyVisibility = hourly.getJSONArray("visibility");
             ArrayList<Integer> sunsetHours = new ArrayList<>();
             for (int i = 0; i < time.length() - 1; i++) {
-                Log.d("Sunset Hours start", sunsetHours.toString());
                 sunsetHours.add(24 * i +
                         Integer.parseInt(
                                 sunset
@@ -124,7 +125,8 @@ public class WeatherRepository {
                                 new WeatherType(hourlyWeathercode.getInt(
                                         sunsetHours.get(i))
                                 ),
-                                hourlyCloudcover.getInt(sunsetHours.get(i))
+                                hourlyCloudcover.getInt(sunsetHours.get(i)),
+                                hourlyVisibility.getInt(sunsetHours.get(i))
                         )
                 );
             }
