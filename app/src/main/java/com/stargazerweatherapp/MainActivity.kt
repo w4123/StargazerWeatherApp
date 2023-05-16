@@ -9,9 +9,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.stargazerweatherapp.ui.screen.CalendarA
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
+import io.github.boguszpawlowski.composecalendar.Calendar
 
 class MainActivity : ComponentActivity() {
     @Preview
@@ -23,10 +25,11 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = "main") {
                     composable("main") {
-                        MainScreen(
-                            navigateToDetailsScreen = { navController.navigate("details") },
-                            navigateToSettingsScreen = { navController.navigate("settings") }
-                        )
+                        // MainScreen(
+                        //    navigateToDetailsScreen = { navController.navigate("details") },
+                        //    navigateToSettingsScreen = { navController.navigate("settings") }
+                        // )
+                        CalendarA()
                     }
                 }
             }
