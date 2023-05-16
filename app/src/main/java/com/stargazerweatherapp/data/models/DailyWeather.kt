@@ -9,5 +9,6 @@ data class DailyWeather(
     val temperatureMax : Double,
     val temperatureMin : Double,
     val sunsetTime: String,
-    val weatherType: WeatherType
+    val weatherType: WeatherType,
+    val cloudCoverAtSunset: Int
 )

@@ -80,9 +80,13 @@ public class WeatherRepository {
                 .addPathSegment("forecast")
                 .addQueryParameter("latitude", location.getLatitude().toString())
                 .addQueryParameter("longitude", location.getLongitude().toString())
-                .addQueryParameter("daily", "temperature_2m_max,temperature_2m_min,weathercode,sunset")
+                .addQueryParameter("daily", "temperature_2m_max,temperature_2m_min,sunset")
                 .addQueryParameter("timezone", "auto")
+                .addQueryParameter("hourly", "cloudcover,weathercode")
+                .addQueryParameter("is_day", "0")
                 .build();
+
+        Log.d("URL", httpUrl.toString());
 
         Request request = new Request.Builder()
                 .url(httpUrl)
@@ -92,19 +96,36 @@ public class WeatherRepository {
             ArrayList<DailyWeather> result = new ArrayList<>();
             JSONObject obj = new JSONObject(response.body().string());
             JSONObject daily = obj.getJSONObject("daily");
+            JSONObject hourly = obj.getJSONObject("hourly");
             JSONArray time = daily.getJSONArray("time");
             JSONArray temperature_2m_min = daily.getJSONArray("temperature_2m_min");
             JSONArray temperature_2m_max = daily.getJSONArray("temperature_2m_max");
             JSONArray sunset = daily.getJSONArray("sunset");
-            JSONArray weathercode = daily.getJSONArray("weathercode");
-            for (int i = 0; i < time.length(); i++) {
+            JSONArray hourlyWeathercode = hourly.getJSONArray("weathercode");
+            JSONArray hourlyCloudcover = hourly.getJSONArray("cloudcover");
+            ArrayList<Integer> sunsetHours = new ArrayList<>();
+            for (int i = 0; i < time.length() - 1; i++) {
+                Log.d("Sunset Hours start", sunsetHours.toString());
+                sunsetHours.add(24 * i +
+                        Integer.parseInt(
+                                sunset
+                                        .getString(i)
+                                        .substring(time.getString(i).length() + 1,
+                                                time.getString(i).length() + 3)));
+            }
+
+            for (int i = 0; i < time.length() - 1; i++) {
                 result.add(
                         new DailyWeather(time.getString(i),
                                 location,
                                 temperature_2m_max.getDouble(i),
                                 temperature_2m_min.getDouble(i),
                                 sunset.getString(i).substring(time.getString(i).length() + 1),
-                                new WeatherType(weathercode.getInt(i)))
+                                new WeatherType(hourlyWeathercode.getInt(
+                                        sunsetHours.get(i))
+                                ),
+                                hourlyCloudcover.getInt(sunsetHours.get(i))
+                        )
                 );
             }
             return result;
