@@ -89,7 +89,7 @@ import kotlin.math.min
 @Composable
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit,
+    navigateToGlossary: () -> Unit,
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
     navigateToFutureWeather: (date: String) -> Unit,
@@ -109,7 +109,7 @@ fun MainScreen(
 
                     DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.DateRange, "Calendar")}, text = { Text("Calendar") }, onClick = navigateToCalendarScreen)
-                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = { /*TODO*/ })
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = navigateToGlossary)
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
                     }
                 }

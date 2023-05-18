@@ -21,7 +21,7 @@ fun Glossary(navigateBack: () -> Unit = {})
     Scaffold(
         topBar = {
             TopAppBar(title = {
-                Text("Set Alert")
+                Text("Glossary")
             },
                 navigationIcon = {
                     IconButton(onClick = navigateBack) {

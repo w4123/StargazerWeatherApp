@@ -17,6 +17,7 @@ import androidx.navigation.navArgument
 import com.stargazerweatherapp.data.models.DailyWeather
 import com.stargazerweatherapp.ui.screen.FutureWeather
 import com.stargazerweatherapp.ui.screen.AlertPage
+import com.stargazerweatherapp.ui.screen.Glossary
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     composable("main") {
                         MainScreen(
                             { navController.navigate("details") },
-                            { navController.navigate("settings") },
+                            { navController.navigate("glossary") },
                             { navController.navigate("alerts") },
                             { navController.navigate("calendar") },
                             { navController.navigate("FutureWeather/${it}") },
@@ -64,6 +65,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("alerts") {
                         AlertPage { navController.popBackStack() }
+                    }
+
+                    composable("glossary") {
+                        Glossary { navController.popBackStack() }
                     }
                 }
             }
