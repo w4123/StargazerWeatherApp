@@ -29,6 +29,15 @@ class WeatherViewModel(
         fetchWeatherData()
     }
 
+    public fun getWeatherFromDate(date : String) : DailyWeather{
+        for(dailyWeather in futureWeather.value!!){
+            if (dailyWeather.date.equals(date)){
+                return dailyWeather;
+            }
+        }
+        throw NoSuchElementException("Date $date not in range")
+    }
+
     private fun fetchWeatherData(location : Location){
         isLoading.value = true
         isError.value = false
