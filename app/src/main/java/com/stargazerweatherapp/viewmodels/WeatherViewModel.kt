@@ -3,16 +3,19 @@ package com.stargazerweatherapp.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stargazerweatherapp.BuildConfig
 import com.stargazerweatherapp.data.models.DailyWeather
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.data.repository.WeatherRepository
+import com.stargazerweatherapp.data.repository.WeatherRepositoryImpl
+import com.stargazerweatherapp.data.repository.WeatherRepositoryMockup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WeatherViewModel(
-    private val weatherRepository: WeatherRepository = WeatherRepository(),
+    private val weatherRepository: WeatherRepository  = if (BuildConfig.DEBUG) WeatherRepositoryMockup() else WeatherRepositoryImpl(),
     private val locationRepository: LocationRepository = LocationRepository()
 ) : ViewModel() {
 
