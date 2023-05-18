@@ -28,12 +28,12 @@ public class WeatherRepositoryMockup implements WeatherRepository{
     final List<DailyWeather> futureData;
 
     public WeatherRepositoryMockup(){
-        Integer time = 16;
+        Integer day = 16;
         futureData = new ArrayList<>(7);
         for(Integer i = 0; i < 7; i++){
             futureData.add(
                     new DailyWeather(
-                            "2023-05-"+(i+time),
+                            "2023-05-"+(i+day),
                             cambridge_location,
                             15.9,
                             8.4,

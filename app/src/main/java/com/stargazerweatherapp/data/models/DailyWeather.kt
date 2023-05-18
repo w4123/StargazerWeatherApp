@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class DailyWeather(
-    val time: String,
+    val date: String,
     val location: Location,
     val temperatureMax : Double,
     val temperatureMin : Double,

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stargazerweatherapp.BuildConfig
 import com.stargazerweatherapp.data.models.DailyWeather
+import com.stargazerweatherapp.data.models.Location
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.data.repository.WeatherRepository
@@ -26,6 +27,25 @@ class WeatherViewModel(
 
     init {
         fetchWeatherData()
+    }
+
+    private fun fetchWeatherData(location : Location){
+        isLoading.value = true
+        isError.value = false
+
+        viewModelScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    currentWeather.value = weatherRepository.getCurrentWeatherData(location);
+                    futureWeather.value = weatherRepository.getFutureWeatherData(location)
+                }
+            } catch (e: Exception) {
+                isError.value = true
+            } finally {
+                isLoading.value = false
+            }
+        }
+
     }
 
     private fun fetchWeatherData() {
