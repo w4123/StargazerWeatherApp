@@ -1,5 +1,6 @@
 package com.stargazerweatherapp.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import com.stargazerweatherapp.data.repository.WeatherRepositoryMockup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class WeatherViewModel(
     private val weatherRepository: WeatherRepository  = if (BuildConfig.DEBUG) WeatherRepositoryMockup() else WeatherRepositoryImpl(),
@@ -30,8 +32,9 @@ class WeatherViewModel(
     }
 
     public fun getWeatherFromDate(date : String?) : DailyWeather{
-        if (String.equals(null)) {
+        if (!date.equals(null)) {
             for (dailyWeather in futureWeather.value!!) {
+                Log.d("DailyWeatherDate", dailyWeather.date)
                 if (dailyWeather.date.equals(date)) {
                     return dailyWeather;
                 }

@@ -50,11 +50,7 @@ fun WeatherItem(weather: DailyWeather, navController: NavController) {
     Column(
         modifier = Modifier
             .clickable {
-                Log.d(
-                    "Euan",
-                    "got here"
-                )
-
+                Log.d("Euan", navController.graph.toString())
                 navController.navigate("FutureWeather/${weather.date}")
             }
             .requiredWidth(110.dp)
