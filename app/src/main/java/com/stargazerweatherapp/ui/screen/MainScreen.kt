@@ -89,7 +89,8 @@ import kotlin.math.min
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
     navigateToSettingsScreen: () -> Unit,
-    navigateToAlertsScreen: () -> Unit
+    navigateToAlertsScreen: () -> Unit,
+    navigateToCalendarScreen: () -> Unit
 ) {
     val weatherViewModel: WeatherViewModel = viewModel()
     var menuExpanded by remember { mutableStateOf(false) }

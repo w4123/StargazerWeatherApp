@@ -27,22 +27,32 @@ class MainActivity : ComponentActivity() {
             Surface {
                 val navController = rememberNavController()
 
-                NavHost(navController, startDestination = "main") {
-                    composable("main") {
-                        MainScreen(
-                            navigateToDetailsScreen = { navController.navigate("details") },
-                            navigateToSettingsScreen = { navController.navigate("settings") },
-                            navigateToAlertsScreen =  { navController.navigate("alerts") }
-                        )
-                    }
+//                NavHost(navController, startDestination = "main") {
+//                    composable("main") {
+//                        MainScreen(
+//                            navigateToDetailsScreen = { navController.navigate("details") },
+//                            navigateToSettingsScreen = { navController.navigate("settings") },
+//                            navigateToAlertsScreen =  { navController.navigate("alerts") },
+//                            navigateToCalendarScreen = {navController.navigate("Calendar")}
+//                        )
+//                    }
+//
+//                    composable("alerts") {
+//                        AlertPage(navigateBack = { navController.popBackStack() })
+//                    }
+//
+//                    composable("calendar"){
+//                        CalendarScreen()
+//                    }
 
-                    composable("alerts") {
-                        AlertPage(navigateBack = { navController.popBackStack() })
+                    NavHost(navController = navController, startDestination = "calendar"){
+                        composable("calendar"){
+                            CalendarScreen()
+                        }
                     }
                 }
             }
         }
-    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

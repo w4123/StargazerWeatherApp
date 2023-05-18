@@ -8,6 +8,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,30 +30,46 @@ import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview
-fun CalendarScreen() {
-
+fun CalendarScreen(navigateBack: () -> Unit = {}) {
 
     val calendarState = rememberSelectableCalendarState()
-    val navController = rememberNavController()
-    Column(
-        Modifier
-            .background(color = Color.DarkGray)
-            .fillMaxHeight()) {
 
-        MySearchBar()
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text("Calendar")
+        },
+            navigationIcon = {
+                IconButton(onClick = navigateBack) {
+                    Icon(Icons.Default.ArrowBack, "Back")
+                }
+            })
+    }
+    ) {
+        // Text(modifier = Modifier.padding(it), text = "I am Set Alert Page")
 
-        SelectableCalendar(
-            calendarState = calendarState,
-            modifier = Modifier.background(color = Color.Gray),
-            dayContent = { addSomething(it) }
-        )
+        Column(
+            Modifier
+                .background(color = Color.DarkGray)
+                .fillMaxHeight()
+                .padding(it)
+        ) {
 
-        if (calendarState.selectionState.selection.isNotEmpty()){
-            // navController.navigate("Alerts")
-            println("Went to " + calendarState.selectionState.selection.toString())
+            MySearchBar()
+
+            SelectableCalendar(
+                calendarState = calendarState,
+                modifier = Modifier.background(color = Color.Gray),
+                dayContent = { addSomething(it) }
+            )
+
+            if (calendarState.selectionState.selection.isNotEmpty()) {
+                // navController.navigate("Alerts")
+                println("Went to " + calendarState.selectionState.selection.toString())
+            }
         }
     }
 
