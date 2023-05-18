@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.text.font.FontWeight
+import org.w3c.dom.Text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +32,7 @@ fun Glossary(navigateBack: () -> Unit = {})
                 })
         }
     ) {
-        Text(modifier = Modifier.padding(it), text = "Glossary Page")
-
+        Text(modifier = Modifier.padding(it), text = "Crescent Moon", fontWeight= FontWeight.Bold)
+        Text(modifier = Modifier.padding((it)), text = "Lorem Ipsum")
     }
 }
