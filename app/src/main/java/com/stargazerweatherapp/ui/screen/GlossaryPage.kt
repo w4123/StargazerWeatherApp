@@ -1,5 +1,6 @@
 package com.stargazerweatherapp.ui.screen
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +33,17 @@ fun Glossary(navigateBack: () -> Unit = {})
                 })
         }
     ) {
-        Text(modifier = Modifier.padding(it), text = "Crescent Moon", fontWeight= FontWeight.Bold)
-        Text(modifier = Modifier.padding((it)), text = "Lorem Ipsum")
+        Column {
+            Text(modifier = Modifier.padding(it), text = "Crescent Moon", fontWeight= FontWeight.Bold)
+            Text(text = "Lorem Ipsum")
+            Text(modifier = Modifier.padding(it), text = "Gibbon Moon", fontWeight= FontWeight.Bold)
+            Text(text = "Lorem Ipsum")
+            Text(modifier = Modifier.padding(it),text = "Seeing", fontWeight= FontWeight.Bold)
+            Text(text = "Lorem Ipsum")
+            Text(modifier = Modifier.padding(it),text = "Transparency", fontWeight= FontWeight.Bold)
+            Text(text = "Lorem Ipsum")
+
+        }
+
     }
 }
