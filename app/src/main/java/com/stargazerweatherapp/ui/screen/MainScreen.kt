@@ -108,7 +108,7 @@ fun MainScreen(
                     }
 
                     DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
-                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.DateRange, "Calendar")}, text = { Text("Calendar") }, onClick = { /*TODO*/ })
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.DateRange, "Calendar")}, text = { Text("Calendar") }, onClick = navigateToCalendarScreen)
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = { /*TODO*/ })
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
                     }
