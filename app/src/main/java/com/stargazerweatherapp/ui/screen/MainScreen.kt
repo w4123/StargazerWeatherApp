@@ -6,11 +6,15 @@ import android.widget.SearchView
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +22,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -27,15 +33,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarColors
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,18 +88,33 @@ import kotlin.math.min
 @Composable
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit
+    navigateToSettingsScreen: () -> Unit,
+    navigateToAlertsScreen: () -> Unit
 ) {
     val weatherViewModel: WeatherViewModel = viewModel()
+    var menuExpanded by remember { mutableStateOf(false) }
 
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
-            MySearchBar()
+            MySearchBar(
+                leadingButton = {
+                    IconButton(onClick = { menuExpanded = !menuExpanded }, modifier = it) {
+                        Icon(Icons.Default.Menu, "Menu")
+                    }
+
+                    DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.DateRange, "Calendar")}, text = { Text("Calendar") }, onClick = { /*TODO*/ })
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = { /*TODO*/ })
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
+                    }
+                }
+            )
         }
     ) {
         Column(modifier = Modifier
-            .padding(it).padding(horizontal = 16.dp)
+            .padding(it)
+            .padding(horizontal = 16.dp)
             .fillMaxHeight()) {
             WeatherCard(
                 weather = weatherViewModel.currentWeather.value,
@@ -100,7 +131,9 @@ fun MainScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MySearchBar() {
+fun MySearchBar(
+    leadingButton : @Composable (modifier : Modifier) -> Unit = {}
+) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
     var loc = LocationRepository()
@@ -110,36 +143,40 @@ fun MySearchBar() {
             .zIndex(1f)
             .padding(6.dp)
             .fillMaxWidth()) {
-        SearchBar(
-            modifier = Modifier.align(Alignment.TopCenter),
-            query = text,
-            onQueryChange = { text = it },
-            onSearch = { active = false },
-            active = active,
-            onActiveChange = {
-                active = it
-            },
-            placeholder = { Text("Search Your Location") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) }
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+        Row(verticalAlignment = Alignment.Top,
+            modifier = Modifier.padding(top = 8.dp)) {
+            leadingButton(Modifier.padding(vertical = 3.dp))
+            DockedSearchBar(
+                modifier = Modifier.padding(horizontal = 3.dp),
+                query = text,
+                onQueryChange = { text = it },
+                onSearch = { active = false },
+                active = active,
+                onActiveChange = {
+                    active = it
+                },
+                placeholder = { Text("Search Your Location") },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) }
             ) {
-                val possibleLocations = loc.locationData.filter {
-                    it.name.startsWith(text, true)
-                }
-                items(possibleLocations.size) { idx ->
-                    val resultText = possibleLocations[idx].name
-                    ListItem(
-                        headlineContent = { Text(resultText) },
-                        modifier = Modifier.clickable {
-                            text = resultText
-                            active = false
-                        }
-                    )
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    val possibleLocations = loc.locationData.filter {
+                        it.name.startsWith(text, true)
+                    }
+                    items(possibleLocations.size) { idx ->
+                        val resultText = possibleLocations[idx].name
+                        ListItem(
+                            headlineContent = { Text(resultText) },
+                            modifier = Modifier.clickable {
+                                text = resultText
+                                active = false
+                            }
+                        )
+                    }
                 }
             }
         }
