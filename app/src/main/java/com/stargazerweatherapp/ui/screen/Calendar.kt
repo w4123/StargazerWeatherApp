@@ -61,13 +61,8 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
             SelectableCalendar(
                 calendarState = calendarState,
                 modifier = Modifier.background(color = Color.Gray),
-                dayContent = { addSomething(it) }
+                dayContent = { addSomething(it, navAlert = navigateAlerts) }
             )
-
-            if (calendarState.selectionState.selection.isNotEmpty()) {
-                // navController.navigate("Alerts")
-                println("Went to " + calendarState.selectionState.selection.toString())
-            }
         }
     }
 
@@ -75,10 +70,11 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
 
 @Composable
 fun <T: SelectionState> addSomething(state: DayState<T>,
-                 modifier: Modifier = Modifier,
-                 selectionColor: Color = Purple2,
-                 currentDayColor: Color = Teal200,
-                 onClick: (LocalDate) -> Unit = {},
+                                     modifier: Modifier = Modifier,
+                                     selectionColor: Color = Purple2,
+                                     currentDayColor: Color = Teal200,
+                                     onClick: (LocalDate) -> Unit = {},
+                                     navAlert: () -> Unit = {},
 ) {
     val date = state.date
     val selectionState = state.selectionState
@@ -92,6 +88,8 @@ fun <T: SelectionState> addSomething(state: DayState<T>,
             .clickable {
                 onClick(date)
                 selectionState.onDateSelected(date)
+                println(date)
+                navAlert()
             },
         elevation = if (state.isFromCurrentMonth) CardDefaults.cardElevation(4.dp) else CardDefaults.cardElevation(0.dp),
         border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
