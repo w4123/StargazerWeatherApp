@@ -55,7 +55,7 @@ fun WeatherItem(weather: DailyWeather, navController: NavController) {
                     "got here"
                 )
 
-                navController.navigate("FutureWeather/{weatherDate=${weather.date}}")
+                navController.navigate("FutureWeather/${weather.date}")
             }
             .requiredWidth(110.dp)
             .requiredHeight(160.dp)

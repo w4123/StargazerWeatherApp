@@ -6,9 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.stargazerweatherapp.data.models.DailyWeather
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
@@ -35,7 +37,17 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-
+                    composable("FutureWeather/{weatherDate}",
+                        arguments = listOf(navArgument("weatherDate") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val weatherDate = backStackEntry.arguments?.getString("weatherDate")
+                        val weather: DailyWeather = globalViewModel.getWeatherFromDate(weatherDate);
+                        com.stargazerweatherapp.ui.screen.FutureWeather(
+                            navigateToDetailsScreen = { navController.navigate("details") },
+                            navigateToSettingsScreen = { navController.navigate("settings") },
+                            weatherData = weather
+                        )
+                    }
                 }
             }
         }
@@ -45,27 +57,5 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainScreen()
         }
-    }
-
-    @Composable
-    fun OpenFutureWeather() {
-            StargazerWeatherAppTheme {
-                Surface {
-                    val navController = rememberNavController()
-
-                    NavHost(navController, startDestination = "main") {
-                        composable("FutureWeather/{weatherDate}") {
-                            navStack ->
-                            val weatherDate = navStack.arguments?.getString("weatherDate")
-                            val weather: DailyWeather = globalViewModel.getWeatherFromDate(weatherDate);
-                            com.stargazerweatherapp.ui.screen.FutureWeather(
-                                navigateToDetailsScreen = { navController.navigate("details") },
-                                navigateToSettingsScreen = { navController.navigate("settings") },
-                                weatherData = weather
-                            )
-                        }
-                    }
-                }
-            }
     }
 }
