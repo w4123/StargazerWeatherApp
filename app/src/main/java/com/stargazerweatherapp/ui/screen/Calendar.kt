@@ -32,7 +32,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun CalendarScreen(navigateBack: () -> Unit = {}) {
+fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {}) {
 
     val calendarState = rememberSelectableCalendarState()
 
