@@ -61,7 +61,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.models.WeatherType
 import com.stargazerweatherapp.data.repository.LocationRepository
-import com.stargazerweatherapp.ui.components.FutureWeatherCard
+import com.stargazerweatherapp.ui.components.FutureWeatherCardSmall
 //import com.stargazerweatherapp.ui.components.AstronomyCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
@@ -89,7 +89,7 @@ fun MainScreen(
                 weather = weatherViewModel.currentWeather.value,
                 modifier = Modifier.weight(1f)
             )
-            FutureWeatherCard(
+            FutureWeatherCardSmall(
                 weatherData = weatherViewModel.futureWeather.value
             )
         }
