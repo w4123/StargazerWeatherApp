@@ -74,10 +74,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.models.WeatherType
 import com.stargazerweatherapp.data.repository.LocationRepository
-import com.stargazerweatherapp.ui.components.FutureWeatherCard
+import com.stargazerweatherapp.ui.components.FutureWeatherCardSmall
 //import com.stargazerweatherapp.ui.components.AstronomyCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
@@ -90,7 +91,9 @@ fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
     navigateToSettingsScreen: () -> Unit,
     navigateToAlertsScreen: () -> Unit,
-    navigateToCalendarScreen: () -> Unit
+    navigateToCalendarScreen: () -> Unit,
+    navigateToFutureWeather: (date: String) -> Unit,
+    weatherViewModel: WeatherViewModel
 ) {
     val weatherViewModel: WeatherViewModel = viewModel()
     var menuExpanded by remember { mutableStateOf(false) }
@@ -121,8 +124,9 @@ fun MainScreen(
                 weather = weatherViewModel.currentWeather.value,
                 modifier = Modifier.weight(1f)
             )
-            FutureWeatherCard(
-                weatherData = weatherViewModel.futureWeather.value
+            FutureWeatherCardSmall(
+                weatherData = weatherViewModel.futureWeather.value,
+                navigateToFutureWeather
             )
         }
     }

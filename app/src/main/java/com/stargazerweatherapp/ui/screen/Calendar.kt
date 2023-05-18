@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.stargazerweatherapp.ui.components.FutureWeatherCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.ui.screens.MySearchBar
 import com.stargazerweatherapp.ui.theme.*
@@ -31,7 +30,6 @@ import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview
 fun CalendarScreen(navigateBack: () -> Unit = {}) {
@@ -75,7 +73,6 @@ fun CalendarScreen(navigateBack: () -> Unit = {}) {
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun <T: SelectionState> addSomething(state: DayState<T>,
                  modifier: Modifier = Modifier,

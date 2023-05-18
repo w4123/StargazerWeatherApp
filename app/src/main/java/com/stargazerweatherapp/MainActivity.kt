@@ -8,18 +8,24 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.stargazerweatherapp.ui.screen.CalendarScreen
+import androidx.navigation.navArgument
+import com.stargazerweatherapp.data.models.DailyWeather
+import com.stargazerweatherapp.ui.screen.FutureWeather
 import com.stargazerweatherapp.ui.screen.AlertPage
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
 import io.github.boguszpawlowski.composecalendar.Calendar
+import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
+    var globalViewModel: WeatherViewModel = WeatherViewModel()
+
     @Preview
     @Composable
     fun MainScreen() {
@@ -27,33 +33,39 @@ class MainActivity : ComponentActivity() {
             Surface {
                 val navController = rememberNavController()
 
-//                NavHost(navController, startDestination = "main") {
-//                    composable("main") {
-//                        MainScreen(
-//                            navigateToDetailsScreen = { navController.navigate("details") },
-//                            navigateToSettingsScreen = { navController.navigate("settings") },
-//                            navigateToAlertsScreen =  { navController.navigate("alerts") },
-//                            navigateToCalendarScreen = {navController.navigate("Calendar")}
-//                        )
-//                    }
-//
-//                    composable("alerts") {
-//                        AlertPage(navigateBack = { navController.popBackStack() })
-//                    }
-//
-//                    composable("calendar"){
-//                        CalendarScreen()
-//                    }
+                NavHost(navController, startDestination = "main") {
+                    composable("main") {
+                        MainScreen(
+                            { navController.navigate("details") },
+                            { navController.navigate("settings") },
+                            { navController.navigate("alerts") },
+                            { navController.navigate("calendar") },
+                            { navController.navigate("FutureWeather/${it}") },
+                            globalViewModel
+                        )
+                    }
 
-                    NavHost(navController = navController, startDestination = "calendar"){
-                        composable("calendar"){
-                            CalendarScreen()
-                        }
+                    composable(
+                        "FutureWeather/{weatherDate}",
+                        arguments = listOf(navArgument("weatherDate") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val weatherDate = backStackEntry.arguments?.getString("weatherDate")
+                        val weather: DailyWeather = globalViewModel.getWeatherFromDate(weatherDate);
+                        FutureWeather(
+                            navigateToDetailsScreen = { navController.navigate("details") },
+                            navigateToSettingsScreen = { navController.navigate("settings") },
+                            weatherData = weather
+                        )
+                    }
+
+                    composable("calendar") {
+                        CalendarScreen()
                     }
                 }
             }
         }
-    @RequiresApi(Build.VERSION_CODES.O)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

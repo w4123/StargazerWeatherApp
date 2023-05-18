@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StargazerWeatherApp</string>
+    <string name="title_activity_future_weather">FutureWeather</string>
 </resources>
