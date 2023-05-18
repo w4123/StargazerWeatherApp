@@ -60,10 +60,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("calendar") {
-                        CalendarScreen {
-                            navController.popBackStack()
-                            navController.navigate("alerts")
-                        }
+                        CalendarScreen (
+                            { navController.popBackStack()},
+                            { navController.navigate("alerts") }
+                        )
                     }
 
                     composable("alerts") {

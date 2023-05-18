@@ -47,7 +47,6 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
             })
     }
     ) {
-        // Text(modifier = Modifier.padding(it), text = "I am Set Alert Page")
 
         Column(
             Modifier
@@ -88,8 +87,8 @@ fun <T: SelectionState> addSomething(state: DayState<T>,
             .clickable {
                 onClick(date)
                 selectionState.onDateSelected(date)
-                println(date)
                 navAlert()
+                println(date)
             },
         elevation = if (state.isFromCurrentMonth) CardDefaults.cardElevation(4.dp) else CardDefaults.cardElevation(0.dp),
         border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
