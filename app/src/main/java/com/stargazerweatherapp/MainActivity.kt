@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.stargazerweatherapp.ui.screen.AlertPage
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
@@ -25,8 +26,13 @@ class MainActivity : ComponentActivity() {
                     composable("main") {
                         MainScreen(
                             navigateToDetailsScreen = { navController.navigate("details") },
-                            navigateToSettingsScreen = { navController.navigate("settings") }
+                            navigateToSettingsScreen = { navController.navigate("settings") },
+                            navigateToAlertsScreen =  { navController.navigate("alerts") }
                         )
+                    }
+
+                    composable("alerts") {
+                        AlertPage(navigateBack = { navController.popBackStack() })
                     }
                 }
             }

@@ -88,7 +88,8 @@ import kotlin.math.min
 @Composable
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit
+    navigateToSettingsScreen: () -> Unit,
+    navigateToAlertsScreen: () -> Unit
 ) {
     val weatherViewModel: WeatherViewModel = viewModel()
     var menuExpanded by remember { mutableStateOf(false) }
@@ -105,7 +106,7 @@ fun MainScreen(
                     DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.DateRange, "Calendar")}, text = { Text("Calendar") }, onClick = { /*TODO*/ })
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = { /*TODO*/ })
-                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = { /*TODO*/ })
+                        DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
                     }
                 }
             )
