@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.stargazerweatherapp.data.models.DailyWeather
+import com.stargazerweatherapp.ui.screen.FutureWeather
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         MainScreen(
                             { navController.navigate("details") },
                             { navController.navigate("settings") },
-                            navController,
+                            { navController.navigate("FutureWeather/${it}") },
                             globalViewModel
                         )
                     }
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val weatherDate = backStackEntry.arguments?.getString("weatherDate")
                         val weather: DailyWeather = globalViewModel.getWeatherFromDate(weatherDate);
-                        com.stargazerweatherapp.ui.screen.FutureWeather(
+                        FutureWeather(
                             navigateToDetailsScreen = { navController.navigate("details") },
                             navigateToSettingsScreen = { navController.navigate("settings") },
                             weatherData = weather

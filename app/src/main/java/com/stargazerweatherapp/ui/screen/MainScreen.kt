@@ -74,7 +74,7 @@ import kotlin.math.min
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
     navigateToSettingsScreen: () -> Unit,
-    navController: NavController,
+    navigateToFutureWeather: (date: String) -> Unit,
     weatherViewModel: WeatherViewModel
 ) {
 
@@ -93,7 +93,7 @@ fun MainScreen(
             )
             FutureWeatherCardSmall(
                 weatherData = weatherViewModel.futureWeather.value,
-                navController
+                navigateToFutureWeather
             )
         }
     }

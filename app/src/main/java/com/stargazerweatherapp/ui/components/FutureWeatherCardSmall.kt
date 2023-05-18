@@ -29,7 +29,7 @@ import com.stargazerweatherapp.data.models.DailyWeather
 @Composable
 fun FutureWeatherCardSmall(
     weatherData: List<DailyWeather>?,
-    navController: NavController,
+    navigateToFutureWeather: (date: String) -> Unit,
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     LazyRow(
@@ -39,19 +39,18 @@ fun FutureWeatherCardSmall(
     ) {
         if (weatherData != null) {
             items(weatherData) {
-                WeatherItem(it, navController)
+                WeatherItem(it, navigateToFutureWeather)
             }
         }
     }
 }
 
 @Composable
-fun WeatherItem(weather: DailyWeather, navController: NavController) {
+fun WeatherItem(weather: DailyWeather, navigateToFutureWeather: (date: String) -> Unit) {
     Column(
         modifier = Modifier
             .clickable {
-                Log.d("Euan", navController.graph.toString())
-                navController.navigate("FutureWeather/${weather.date}")
+                navigateToFutureWeather(weather.date)
             }
             .requiredWidth(110.dp)
             .requiredHeight(160.dp)
