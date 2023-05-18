@@ -95,7 +95,6 @@ fun MainScreen(
     navigateToFutureWeather: (date: String) -> Unit,
     weatherViewModel: WeatherViewModel
 ) {
-    val weatherViewModel: WeatherViewModel = viewModel()
     var menuExpanded by remember { mutableStateOf(false) }
 
     Scaffold(
