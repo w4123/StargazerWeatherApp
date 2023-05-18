@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.models.WeatherType
 import com.stargazerweatherapp.data.repository.LocationRepository
@@ -72,9 +73,10 @@ import kotlin.math.min
 @Composable
 fun MainScreen(
     navigateToDetailsScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit
+    navigateToSettingsScreen: () -> Unit,
+    navController: NavController,
+    weatherViewModel: WeatherViewModel
 ) {
-    val weatherViewModel: WeatherViewModel = viewModel()
 
     Scaffold(
         Modifier.fillMaxSize(),
@@ -90,7 +92,8 @@ fun MainScreen(
                 modifier = Modifier.weight(1f)
             )
             FutureWeatherCardSmall(
-                weatherData = weatherViewModel.futureWeather.value
+                weatherData = weatherViewModel.futureWeather.value,
+                navController
             )
         }
     }

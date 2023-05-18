@@ -29,10 +29,12 @@ class WeatherViewModel(
         fetchWeatherData()
     }
 
-    public fun getWeatherFromDate(date : String) : DailyWeather{
-        for(dailyWeather in futureWeather.value!!){
-            if (dailyWeather.date.equals(date)){
-                return dailyWeather;
+    public fun getWeatherFromDate(date : String?) : DailyWeather{
+        if (String.equals(null)) {
+            for (dailyWeather in futureWeather.value!!) {
+                if (dailyWeather.date.equals(date)) {
+                    return dailyWeather;
+                }
             }
         }
         throw NoSuchElementException("Date $date not in range")

@@ -29,7 +29,7 @@ import com.stargazerweatherapp.viewmodels.WeatherViewModel
 fun FutureWeather(
     navigateToDetailsScreen: () -> Unit,
     navigateToSettingsScreen: () -> Unit,
-    weatherData: String
+    weatherData: DailyWeather
 ) {
     Scaffold(
         Modifier.fillMaxSize(),

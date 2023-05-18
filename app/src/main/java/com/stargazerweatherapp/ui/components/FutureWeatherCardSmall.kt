@@ -29,8 +29,8 @@ import com.stargazerweatherapp.data.models.DailyWeather
 @Composable
 fun FutureWeatherCardSmall(
     weatherData: List<DailyWeather>?,
-    modifier: Modifier = Modifier.fillMaxWidth(),
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     LazyRow(
         modifier = modifier,
@@ -54,7 +54,8 @@ fun WeatherItem(weather: DailyWeather, navController: NavController) {
                     "Euan",
                     "got here"
                 )
-                navController.navigate("FutureWeather")
+
+                navController.navigate("FutureWeather/{weatherDate=${weather.date}}")
             }
             .requiredWidth(110.dp)
             .requiredHeight(160.dp)
