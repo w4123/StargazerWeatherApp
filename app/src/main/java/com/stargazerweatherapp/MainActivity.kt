@@ -21,12 +21,12 @@ import com.stargazerweatherapp.ui.screen.Glossary
 import com.stargazerweatherapp.ui.screens.MainScreen
 //import com.stargazerweatherapp.ui.screens.SettingsScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
-import io.github.boguszpawlowski.composecalendar.Calendar
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
     var globalViewModel: WeatherViewModel = WeatherViewModel()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
     fun MainScreen() {
@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("alerts") {
-                        AlertPage { navController.popBackStack() }
+                        AlertPage(navigateBack = {navController.popBackStack()})
                     }
 
                     composable("glossary") {
@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
