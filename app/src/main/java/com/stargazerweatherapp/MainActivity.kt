@@ -56,7 +56,9 @@ class MainActivity : ComponentActivity() {
                         FutureWeather(
                             navigateToDetailsScreen = { navController.navigate("details") },
                             navigateToSettingsScreen = { navController.navigate("settings") },
-                            weatherData = weather
+                            weatherData = weather,
+                            { navController.navigate("FutureWeather/${it}") },
+                            globalViewModel
                         )
                     }
 
