@@ -10,9 +10,7 @@ public class DateGetter {
     public static List<LocalDate> getDates(int NumberOfDates){
         ArrayList<LocalDate> dates = new ArrayList<>();
         for (int i = 0; i < NumberOfDates; ++i) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                dates.add(LocalDate.now().plusDays(i));
-            }
+            dates.add(LocalDate.now().plusDays(i));
         }
         return dates;
     }

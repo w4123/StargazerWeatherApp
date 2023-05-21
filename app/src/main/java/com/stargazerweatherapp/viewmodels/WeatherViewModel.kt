@@ -37,7 +37,7 @@ class WeatherViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun dateInRange(dateString : String) : Boolean {
+    fun dateInRange(dateString : String) : Boolean {
         val date = LocalDate.parse(dateString)
         val startDate = LocalDate.parse(futureWeather.value!![0].date)
         val between = DAYS.between(date,startDate)
