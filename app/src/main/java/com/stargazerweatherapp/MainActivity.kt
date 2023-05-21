@@ -62,7 +62,8 @@ class MainActivity : ComponentActivity() {
                     composable("calendar") {
                         CalendarScreen (
                             { navController.popBackStack()},
-                            { navController.navigate("alerts") }
+                            { navController.navigate("alerts") },
+                            globalViewModel
                         )
                     }
 
