@@ -14,17 +14,6 @@ public class WeatherRepositoryMockup implements WeatherRepository{
 
     final Location cambridge_location = new Location("Cambridge", latitude, longitude);
 
-    final Weather currentWeather = new Weather(
-            "2023-05-16T14:00",
-            cambridge_location,
-            15.3,
-            16.8,
-            318,
-            new WeatherType(3),
-            100,
-            24140
-            );
-
     final List<DailyWeather> futureData;
 
     public WeatherRepositoryMockup(){
@@ -48,12 +37,36 @@ public class WeatherRepositoryMockup implements WeatherRepository{
     @Override
     public List<DailyWeather> getFutureWeatherData(Location location)
     {
+        Integer day = 16;
+        for(Integer i = 0; i < 7; i++){
+            futureData.set(i,
+                    new DailyWeather(
+                            "2023-05-"+(i+day),
+                            location,
+                            15.9,
+                            8.4,
+                            "2023-05-16T20:50",
+                            new WeatherType(3),
+                            100,
+                            24140
+                    )
+            );
+        }
         return futureData;
     }
 
     @Override
     public Weather getCurrentWeatherData(Location location)
     {
-        return currentWeather;
+        return new Weather(
+                "2023-05-16T14:00",
+                location,
+                15.3,
+                16.8,
+                318,
+                new WeatherType(3),
+                100,
+                24140
+        );
     }
 }

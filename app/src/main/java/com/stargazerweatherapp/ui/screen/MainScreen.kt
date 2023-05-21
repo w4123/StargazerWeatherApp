@@ -2,36 +2,22 @@ package com.stargazerweatherapp.ui.screens
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.SearchView
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.List
@@ -39,19 +25,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarColors
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,30 +37,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.isContainer
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextMotion
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.stargazerweatherapp.data.models.Weather
-import com.stargazerweatherapp.data.models.WeatherType
 import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.ui.components.FutureWeatherCardSmall
 //import com.stargazerweatherapp.ui.components.AstronomyCard
 import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
-import kotlin.math.max
-import kotlin.math.min
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -92,7 +55,8 @@ fun MainScreen(
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
     navigateToFutureWeather: (date: String) -> Unit,
-    weather: Weather?,
+    navigateToNewLocation : (location: String) -> Unit,
+    weatherData: Weather?,
     weatherViewModel: WeatherViewModel
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
@@ -111,7 +75,8 @@ fun MainScreen(
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = navigateToGlossary)
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
                     }
-                }
+                },
+                navigateToNewLocation
             )
         }
     ) {
@@ -120,7 +85,7 @@ fun MainScreen(
             .padding(horizontal = 16.dp)
             .fillMaxHeight()) {
             WeatherCard(
-                weather = weather,
+                weather = weatherData,
                 modifier = Modifier.weight(1f)
             )
             FutureWeatherCardSmall(
@@ -136,7 +101,8 @@ fun MainScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MySearchBar(
-    leadingButton : @Composable (modifier : Modifier) -> Unit = {}
+    leadingButton : @Composable (modifier : Modifier) -> Unit = {},
+    navigateToNewLocation: (location: String) -> Unit = {}
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -154,7 +120,10 @@ fun MySearchBar(
                 modifier = Modifier.padding(horizontal = 3.dp),
                 query = text,
                 onQueryChange = { text = it },
-                onSearch = { active = false },
+                onSearch = {
+                    active = false
+                    Log.d("Navigate","Calling navigate to new location $it")
+                    navigateToNewLocation(it) },
                 active = active,
                 onActiveChange = {
                     active = it
@@ -178,6 +147,8 @@ fun MySearchBar(
                             modifier = Modifier.clickable {
                                 text = resultText
                                 active = false
+                                Log.d("Navigate","Calling navigate to new location $text")
+                                navigateToNewLocation(text)
                             }
                         )
                     }

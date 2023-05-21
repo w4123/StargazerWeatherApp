@@ -20,7 +20,9 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
 
 class WeatherViewModel(
-    private val weatherRepository: WeatherRepository  = if (BuildConfig.DEBUG) WeatherRepositoryMockup() else WeatherRepositoryImpl(),
+    private val weatherRepository: WeatherRepository  =
+        if (BuildConfig.DEBUG) WeatherRepositoryMockup() else
+            WeatherRepositoryImpl(),
     private val locationRepository: LocationRepository = LocationRepository()
 ) : ViewModel() {
 
@@ -28,6 +30,7 @@ class WeatherViewModel(
     val futureWeather = mutableStateOf<List<DailyWeather>?>(null)
     val isLoading = mutableStateOf(false)
     val isError = mutableStateOf(false)
+    val currentLocation = mutableStateOf<Location?>(null)
 
     init {
         fetchWeatherData()
@@ -58,15 +61,19 @@ class WeatherViewModel(
         throw NoSuchElementException("Date $date not in range")
     }
 
-    private fun fetchWeatherData(location : Location){
+    fun fetchWeatherData(locationName : String){
         isLoading.value = true
         isError.value = false
 
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
+                    val location = locationRepository.locationData.find {
+                        it.name.equals(locationName)
+                    }!!
                     currentWeather.value = weatherRepository.getCurrentWeatherData(location);
                     futureWeather.value = weatherRepository.getFutureWeatherData(location)
+                    currentLocation.value = location
                 }
             } catch (e: Exception) {
                 isError.value = true
@@ -77,24 +84,7 @@ class WeatherViewModel(
 
     }
 
-    private fun fetchWeatherData() {
-        isLoading.value = true
-        isError.value = false
-
-        viewModelScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    val defaultLocation = locationRepository.locationData.find {
-                        it.name.equals("Cambridge")
-                    }!!
-                    currentWeather.value = weatherRepository.getCurrentWeatherData(defaultLocation);
-                    futureWeather.value = weatherRepository.getFutureWeatherData(defaultLocation)
-                }
-            } catch (e: Exception) {
-                isError.value = true
-            } finally {
-                isLoading.value = false
-            }
-        }
+    fun fetchWeatherData() {
+        fetchWeatherData("Cambridge")
     }
 }
