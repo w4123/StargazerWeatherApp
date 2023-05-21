@@ -52,14 +52,27 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("weatherDate") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val weatherDate = backStackEntry.arguments?.getString("weatherDate")
-                        val weather: DailyWeather = globalViewModel.getDailyWeatherFromDate(weatherDate);
-                        FutureWeather(
-                            navigateToDetailsScreen = { navController.navigate("details") },
-                            navigateToSettingsScreen = { navController.navigate("settings") },
-                            weatherData = weather,
-                            { navController.navigate("FutureWeather/${it}") },
-                            globalViewModel
-                        )
+                        if (globalViewModel.dateIsCurrent(weatherDate!!)){
+                            MainScreen(
+                                { navController.navigate("details") },
+                                { navController.navigate("glossary") },
+                                { navController.navigate("alerts") },
+                                { navController.navigate("calendar") },
+                                { navController.navigate("FutureWeather/${it}") },
+                                globalViewModel.currentWeather.value,
+                                globalViewModel
+                            )
+                        }
+                        else{
+                            val weather: DailyWeather = globalViewModel.getDailyWeatherFromDate(weatherDate);
+                            FutureWeather(
+                                navigateToDetailsScreen = { navController.navigate("details") },
+                                navigateToSettingsScreen = { navController.navigate("settings") },
+                                weatherData = weather,
+                                { navController.navigate("FutureWeather/${it}") },
+                                globalViewModel
+                            )
+                        }
                     }
 
                     composable("calendar") {
