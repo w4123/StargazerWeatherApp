@@ -1,6 +1,5 @@
 package com.stargazerweatherapp.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.stargazerweatherapp.R
 import com.stargazerweatherapp.data.models.DailyWeather
 
@@ -77,7 +75,7 @@ fun WeatherItem(weather: DailyWeather, navigateToFutureWeather: (date: String) -
             fontSize = 12.sp
         )
         Text(
-            text = "Sunset: " + weather.sunsetTime,
+            text = "Sunset: " + weather.getSunset(),
             textAlign = TextAlign.Center,
             fontSize = 10.sp
         )

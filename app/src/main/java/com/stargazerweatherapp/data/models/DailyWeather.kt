@@ -12,4 +12,8 @@ data class DailyWeather(
     val weatherType: WeatherType,
     val cloudCoverAtSunset: Int,
     val visibility: Int
-)
+){
+    fun getSunset() : String {
+        return sunsetTime.takeLast(5);
+    }
+}

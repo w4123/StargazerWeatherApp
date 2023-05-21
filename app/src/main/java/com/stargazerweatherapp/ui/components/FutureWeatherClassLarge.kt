@@ -32,13 +32,17 @@ fun FutureWeatherCardLarge(weather: DailyWeather?, modifier: Modifier = Modifier
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+                Text(text = nonNullWeather.date,
+                    fontSize = 26.sp,
+                    modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
+
                 Text(text = nonNullWeather.location.name,
                     fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
 
                 Row(verticalAlignment = Alignment.Top,
                     modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Text(weather.sunsetTime,
+                    Text(weather.getSunset(),
                         textAlign = TextAlign.Left,
                         fontSize = 26.sp
                     )
@@ -74,8 +78,8 @@ fun FutureWeatherCardLarge(weather: DailyWeather?, modifier: Modifier = Modifier
                 Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
                 Text(text = "${nonNullWeather.temperatureMin}°C", fontSize = 36.sp)
 
-                Text(text = "${nonNullWeather.cloudCoverAtSunset}%")
-                Text(text = "${nonNullWeather.visibility}m")
+                Text(text = "Cloud Cover: ${nonNullWeather.cloudCoverAtSunset}%")
+                Text(text = "Visibility: ${nonNullWeather.visibility}m")
             }
         }
     }

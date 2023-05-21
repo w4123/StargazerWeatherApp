@@ -31,6 +31,9 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(text = nonNullWeather.datetime.dropLast(6),
+                    fontSize = 26.sp,
+                    modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
 
                 Text(text = nonNullWeather.location.name,
                     fontSize = 36.sp,
@@ -74,8 +77,8 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
                 Text(text = "${nonNullWeather.temperature}°C", fontSize = 36.sp)
 
-                Text(text = "${nonNullWeather.cloudCover}%")
-                Text(text = "${nonNullWeather.visibility}m")
+                Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
+                Text(text = "Visibility: ${nonNullWeather.visibility}m")
             }
         }
     }

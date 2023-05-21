@@ -42,8 +42,12 @@ class WeatherViewModel(
 
     }
 
+    fun dateIsCurrent(dateString: String) : Boolean{
+        return (dateString.equals(futureWeather.value!![0].date));
+    }
 
-    public fun getWeatherFromDate(date : String?) : DailyWeather{
+
+    fun getDailyWeatherFromDate(date : String?) : DailyWeather{
         if (!date.equals(null)) {
             for (dailyWeather in futureWeather.value!!) {
                 if (dailyWeather.date.equals(date)) {
