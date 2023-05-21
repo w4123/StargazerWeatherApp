@@ -74,8 +74,8 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
                 Text(text = "${nonNullWeather.temperature}°C", fontSize = 36.sp)
 
-                Text(text = "${nonNullWeather.cloudCover}%")
-                Text(text = "${nonNullWeather.visibility}m")
+                Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
+                Text(text = "Visibility: ${nonNullWeather.visibility}m")
             }
         }
     }
