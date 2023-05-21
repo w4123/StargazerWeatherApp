@@ -47,6 +47,14 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
+                    composable("NewLocation/{locationName}",
+                    arguments = listOf(navArgument("locationName") { type = NavType.StringType })
+                    ){ backStackEntry ->
+                        val locationName = backStackEntry.arguments?.getString("locationName");
+
+
+                    }
+
                     composable(
                         "FutureWeather/{weatherDate}",
                         arguments = listOf(navArgument("weatherDate") { type = NavType.StringType })

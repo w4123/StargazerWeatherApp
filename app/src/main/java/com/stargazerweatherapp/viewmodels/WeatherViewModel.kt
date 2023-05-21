@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stargazerweatherapp.BuildConfig
 import com.stargazerweatherapp.data.models.DailyWeather
-import com.stargazerweatherapp.data.models.Location
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.data.repository.WeatherRepository
@@ -58,13 +57,16 @@ class WeatherViewModel(
         throw NoSuchElementException("Date $date not in range")
     }
 
-    private fun fetchWeatherData(location : Location){
+    fun fetchWeatherData(locationName : String){
         isLoading.value = true
         isError.value = false
 
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
+                    val location = locationRepository.locationData.find {
+                        it.name.equals(locationName)
+                    }!!
                     currentWeather.value = weatherRepository.getCurrentWeatherData(location);
                     futureWeather.value = weatherRepository.getFutureWeatherData(location)
                 }
@@ -77,24 +79,7 @@ class WeatherViewModel(
 
     }
 
-    private fun fetchWeatherData() {
-        isLoading.value = true
-        isError.value = false
-
-        viewModelScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    val defaultLocation = locationRepository.locationData.find {
-                        it.name.equals("Cambridge")
-                    }!!
-                    currentWeather.value = weatherRepository.getCurrentWeatherData(defaultLocation);
-                    futureWeather.value = weatherRepository.getFutureWeatherData(defaultLocation)
-                }
-            } catch (e: Exception) {
-                isError.value = true
-            } finally {
-                isLoading.value = false
-            }
-        }
+    fun fetchWeatherData() {
+        fetchWeatherData("Cambridge")
     }
 }
