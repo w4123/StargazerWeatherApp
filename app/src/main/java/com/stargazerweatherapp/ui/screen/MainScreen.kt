@@ -55,6 +55,7 @@ fun MainScreen(
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
     navigateToFutureWeather: (date: String) -> Unit,
+//    navigateToNewLocation : (location: String) -> Unit,
     weatherData: Weather?,
     weatherViewModel: WeatherViewModel
 ) {

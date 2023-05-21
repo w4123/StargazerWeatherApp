@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,23 +37,15 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = "main") {
                     composable("main") {
-                        MainScreen(
-                            { navController.navigate("details") },
-                            { navController.navigate("glossary") },
-                            { navController.navigate("alerts") },
-                            { navController.navigate("calendar") },
-                            { navController.navigate("FutureWeather/${it}") },
-                            globalViewModel.currentWeather.value,
-                            globalViewModel
-                        )
+                        getNewMainScreen(navController)
                     }
 
                     composable("NewLocation/{locationName}",
                     arguments = listOf(navArgument("locationName") { type = NavType.StringType })
                     ){ backStackEntry ->
                         val locationName = backStackEntry.arguments?.getString("locationName");
-
-
+                        globalViewModel.fetchWeatherData(locationName!!)
+                        getNewMainScreen(navController)
                     }
 
                     composable(
@@ -61,15 +54,7 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val weatherDate = backStackEntry.arguments?.getString("weatherDate")
                         if (globalViewModel.dateIsCurrent(weatherDate!!)){
-                            MainScreen(
-                                { navController.navigate("details") },
-                                { navController.navigate("glossary") },
-                                { navController.navigate("alerts") },
-                                { navController.navigate("calendar") },
-                                { navController.navigate("FutureWeather/${it}") },
-                                globalViewModel.currentWeather.value,
-                                globalViewModel
-                            )
+                            getNewMainScreen(navController)
                         }
                         else{
                             val weather: DailyWeather = globalViewModel.getDailyWeatherFromDate(weatherDate);
@@ -97,6 +82,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun getNewMainScreen(navController: NavHostController) {
+        MainScreen(
+            { navController.navigate("details") },
+            { navController.navigate("glossary") },
+            { navController.navigate("alerts") },
+            { navController.navigate("calendar") },
+            { navController.navigate("FutureWeather/${it}") },
+            globalViewModel.currentWeather.value,
+            globalViewModel
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

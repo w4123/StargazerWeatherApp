@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stargazerweatherapp.BuildConfig
 import com.stargazerweatherapp.data.models.DailyWeather
+import com.stargazerweatherapp.data.models.Location
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.repository.LocationRepository
 import com.stargazerweatherapp.data.repository.WeatherRepository
@@ -27,6 +28,7 @@ class WeatherViewModel(
     val futureWeather = mutableStateOf<List<DailyWeather>?>(null)
     val isLoading = mutableStateOf(false)
     val isError = mutableStateOf(false)
+    val currentLocation = mutableStateOf<Location?>(null)
 
     init {
         fetchWeatherData()
@@ -69,6 +71,7 @@ class WeatherViewModel(
                     }!!
                     currentWeather.value = weatherRepository.getCurrentWeatherData(location);
                     futureWeather.value = weatherRepository.getFutureWeatherData(location)
+                    currentLocation.value = location
                 }
             } catch (e: Exception) {
                 isError.value = true
