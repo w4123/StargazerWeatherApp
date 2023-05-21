@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.stargazerweatherapp.ui.screen.CalendarScreen
 import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import com.stargazerweatherapp.data.models.DailyWeather
 import com.stargazerweatherapp.ui.screen.FutureWeather
 import com.stargazerweatherapp.ui.screen.AlertPage
@@ -38,13 +39,16 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = "main") {
                     composable("main") {
-                        getNewMainScreen(navController)
+                        navController.navigate("NewLocation/Cambridge", navOptions = navOptions {
+                            popUpTo("main") {
+                                inclusive = true
+                            }
+                        })
                     }
 
                     composable("NewLocation/{locationName}",
                     arguments = listOf(navArgument("locationName") { type = NavType.StringType })
                     ){ backStackEntry ->
-
                         val locationName = backStackEntry.arguments?.getString("locationName");
                         Log.d("New location Navigation","Navigating to $locationName")
                         globalViewModel.fetchWeatherData(locationName!!)
