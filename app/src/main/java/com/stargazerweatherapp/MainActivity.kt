@@ -65,8 +65,12 @@ class MainActivity : ComponentActivity() {
                                 navigateToDetailsScreen = { navController.navigate("details") },
                                 navigateToSettingsScreen = { navController.navigate("settings") },
                                 weatherData = weather,
-                                { navController.navigate("FutureWeather/${it}") },
-                                globalViewModel
+                                navigateToFutureWeather = { navController.navigate("FutureWeather/${it}") },
+                                navigateToNewLocation = {navController.navigate("NewLocation/${it}")},
+                                navigateToGlossary = { navController.navigate("glossary") },
+                                navigateToAlertsScreen = { navController.navigate("alerts") },
+                                navigateToCalendarScreen = { navController.navigate("calendar") },
+                                weatherViewModel = globalViewModel
                             )
                         }
                     }
