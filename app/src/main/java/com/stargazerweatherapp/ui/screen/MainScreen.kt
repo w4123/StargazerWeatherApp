@@ -1,6 +1,7 @@
 package com.stargazerweatherapp.ui.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,7 +56,7 @@ fun MainScreen(
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
     navigateToFutureWeather: (date: String) -> Unit,
-//    navigateToNewLocation : (location: String) -> Unit,
+    navigateToNewLocation : (location: String) -> Unit,
     weatherData: Weather?,
     weatherViewModel: WeatherViewModel
 ) {
@@ -75,7 +76,8 @@ fun MainScreen(
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.List, "Glossary")}, text = { Text("Glossary") }, onClick = navigateToGlossary)
                         DropdownMenuItem(leadingIcon = { Icon(Icons.Default.Notifications, "Alert")}, text = { Text("Set Alert") }, onClick = navigateToAlertsScreen)
                     }
-                }
+                },
+                navigateToNewLocation
             )
         }
     ) {
@@ -100,7 +102,8 @@ fun MainScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MySearchBar(
-    leadingButton : @Composable (modifier : Modifier) -> Unit = {}
+    leadingButton : @Composable (modifier : Modifier) -> Unit = {},
+    navigateToNewLocation: (location: String) -> Unit = {}
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
@@ -118,7 +121,10 @@ fun MySearchBar(
                 modifier = Modifier.padding(horizontal = 3.dp),
                 query = text,
                 onQueryChange = { text = it },
-                onSearch = { active = false },
+                onSearch = {
+                    active = false
+                    Log.d("Navigate","Calling navigate to new location $it")
+                    navigateToNewLocation(it) },
                 active = active,
                 onActiveChange = {
                     active = it
@@ -142,6 +148,8 @@ fun MySearchBar(
                             modifier = Modifier.clickable {
                                 text = resultText
                                 active = false
+                                Log.d("Navigate","Calling navigate to new location $text")
+                                navigateToNewLocation(text)
                             }
                         )
                     }

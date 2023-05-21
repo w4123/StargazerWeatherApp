@@ -2,6 +2,7 @@ package com.stargazerweatherapp
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -43,7 +44,9 @@ class MainActivity : ComponentActivity() {
                     composable("NewLocation/{locationName}",
                     arguments = listOf(navArgument("locationName") { type = NavType.StringType })
                     ){ backStackEntry ->
+
                         val locationName = backStackEntry.arguments?.getString("locationName");
+                        Log.d("New location Navigation","Navigating to $locationName")
                         globalViewModel.fetchWeatherData(locationName!!)
                         getNewMainScreen(navController)
                     }
@@ -86,12 +89,14 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun getNewMainScreen(navController: NavHostController) {
+        Log.d("Main screen location","Main screen location ${globalViewModel.currentLocation.value?.name}")
         MainScreen(
             { navController.navigate("details") },
             { navController.navigate("glossary") },
             { navController.navigate("alerts") },
             { navController.navigate("calendar") },
             { navController.navigate("FutureWeather/${it}") },
+            { navController.navigate("NewLocation/${it}")},
             globalViewModel.currentWeather.value,
             globalViewModel
         )
