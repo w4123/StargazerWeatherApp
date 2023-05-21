@@ -93,10 +93,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
     private fun getNewMainScreen(navController: NavHostController) {
         Log.d("Main screen location","Main screen location ${globalViewModel.currentLocation.value?.name}")
         MainScreen(
-            { navController.navigate("details") },
             { navController.navigate("glossary") },
             { navController.navigate("alerts") },
             { navController.navigate("calendar") },
