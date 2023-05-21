@@ -32,6 +32,10 @@ fun FutureWeatherCardLarge(weather: DailyWeather?, modifier: Modifier = Modifier
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+                Text(text = nonNullWeather.date,
+                    fontSize = 26.sp,
+                    modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
+
                 Text(text = nonNullWeather.location.name,
                     fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
