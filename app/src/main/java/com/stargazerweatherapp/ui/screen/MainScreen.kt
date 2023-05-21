@@ -93,6 +93,7 @@ fun MainScreen(
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
     navigateToFutureWeather: (date: String) -> Unit,
+    weather: Weather?,
     weatherViewModel: WeatherViewModel
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
@@ -120,7 +121,7 @@ fun MainScreen(
             .padding(horizontal = 16.dp)
             .fillMaxHeight()) {
             WeatherCard(
-                weather = weatherViewModel.currentWeather.value,
+                weather = weather,
                 modifier = Modifier.weight(1f)
             )
             FutureWeatherCardSmall(

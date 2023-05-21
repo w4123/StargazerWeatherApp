@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
                             { navController.navigate("alerts") },
                             { navController.navigate("calendar") },
                             { navController.navigate("FutureWeather/${it}") },
+                            globalViewModel.currentWeather.value,
                             globalViewModel
                         )
                     }
