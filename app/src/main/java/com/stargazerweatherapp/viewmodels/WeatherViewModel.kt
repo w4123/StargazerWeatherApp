@@ -20,7 +20,9 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
 
 class WeatherViewModel(
-    private val weatherRepository: WeatherRepository  = if (BuildConfig.DEBUG) WeatherRepositoryMockup() else WeatherRepositoryImpl(),
+    private val weatherRepository: WeatherRepository  =
+        if (BuildConfig.DEBUG) WeatherRepositoryMockup() else
+            WeatherRepositoryImpl(),
     private val locationRepository: LocationRepository = LocationRepository()
 ) : ViewModel() {
 
