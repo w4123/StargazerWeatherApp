@@ -2,6 +2,7 @@ package com.stargazerweatherapp.ui.screen
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -44,6 +45,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.isContainer
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -126,9 +128,12 @@ fun AlertPage(
                 }
             }
             item {
-                TextButton(onClick = {
-                    navigateBack()
-                }) {
+                val context = LocalContext.current;
+                Button(onClick = {
+                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show()
+                        navigateBack()
+                    }
+                    , modifier = Modifier.padding(horizontal = 8.dp)) {
                     Text("Set Alert")
                 }
             }
