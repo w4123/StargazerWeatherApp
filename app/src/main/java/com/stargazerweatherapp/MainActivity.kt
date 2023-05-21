@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("weatherDate") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val weatherDate = backStackEntry.arguments?.getString("weatherDate")
-                        val weather: DailyWeather = globalViewModel.getWeatherFromDate(weatherDate);
+                        val weather: DailyWeather = globalViewModel.getDailyWeatherFromDate(weatherDate);
                         FutureWeather(
                             navigateToDetailsScreen = { navController.navigate("details") },
                             navigateToSettingsScreen = { navController.navigate("settings") },

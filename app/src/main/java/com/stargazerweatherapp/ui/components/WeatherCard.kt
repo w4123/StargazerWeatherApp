@@ -31,7 +31,7 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = nonNullWeather.time.dropLast(6),
+                Text(text = nonNullWeather.datetime.dropLast(6),
                     fontSize = 26.sp,
                     modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
 
