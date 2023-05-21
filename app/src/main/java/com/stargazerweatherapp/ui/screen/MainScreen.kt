@@ -88,7 +88,6 @@ import kotlin.math.min
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
-    navigateToDetailsScreen: () -> Unit,
     navigateToGlossary: () -> Unit,
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,

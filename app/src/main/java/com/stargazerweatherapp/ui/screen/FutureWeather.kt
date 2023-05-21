@@ -18,8 +18,6 @@ import com.stargazerweatherapp.viewmodels.WeatherViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FutureWeather(
-    navigateToDetailsScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit,
     weatherData: DailyWeather,
     navigateToFutureWeather: (date: String) -> Unit,
     weatherViewModel: WeatherViewModel
