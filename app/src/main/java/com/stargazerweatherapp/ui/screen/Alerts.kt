@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -46,6 +48,7 @@ import androidx.compose.ui.semantics.isContainer
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.stargazerweatherapp.data.models.DateGetter
 import com.stargazerweatherapp.data.repository.LocationRepository
@@ -54,9 +57,6 @@ import java.time.LocalDate
 import java.util.Date
 
 
-
-@SuppressLint("CoroutineCreationDuringComposition")
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
@@ -75,11 +75,11 @@ fun AlertPage(
             "Low Visibility"
         )
     }
-    if (snackBar) {
-        rememberCoroutineScope().launch {
-            SnackbarHostState().showSnackbar("Saved")
-        }
-    }
+    //if (snackBar) {
+    //    rememberCoroutineScope().launch {
+    //        SnackbarHostState().showSnackbar("Saved")
+    //    }
+    //}
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -92,32 +92,37 @@ fun AlertPage(
                 })
         }
     ) {
-        LazyColumn {
+        LazyColumn(Modifier.padding(it)) {
             item {
-                Text(modifier = Modifier.padding(it), text = "Select A Date:")
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    text = "Select A Date:",
+                    fontSize = 16.sp
+                )
             }
             item {
                 DateSelector(date)
             }
             item {
                 Text(
-                    text = "Select What You Want to be notified of:"
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    text = "Select What You Want to be notified of:",
+                    fontSize = 16.sp
                 )
             }
             items(ThingsToBeNotifiedOf.size) { index ->
-                LazyRow {
-                    item {
-                        val thisChecked = remember {
-                            mutableStateOf(index == 0)
-                        }
-                        Checkbox(
-                            checked = thisChecked.value,
-                            onCheckedChange = { thisChecked.value = it }
-                        )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    var thisChecked by remember {
+                        mutableStateOf(index == 0)
                     }
-                    item {
-                        Text(text = ThingsToBeNotifiedOf[index])
-                    }
+                    Checkbox(
+                        checked = thisChecked,
+                        onCheckedChange = { thisChecked = it }
+                    )
+                    Text(
+                        text = ThingsToBeNotifiedOf[index],
+                        fontSize = 14.sp
+                    )
                 }
             }
             item {
@@ -150,7 +155,7 @@ fun DateSelector(
             .padding(6.dp)
             .fillMaxWidth()) {
         Row(modifier = Modifier) {
-            SearchBar(
+            DockedSearchBar(
                 modifier = Modifier.padding(horizontal = 3.dp),
                 query = text,
                 onQueryChange = { text = it },
@@ -160,8 +165,7 @@ fun DateSelector(
                     active = it
                 },
                 placeholder = { Text("Select Date") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) }
+                leadingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) }
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),
