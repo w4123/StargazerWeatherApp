@@ -32,7 +32,7 @@ import java.util.function.ToIntFunction
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {}, weatherModel: WeatherViewModel) {
-    //
+    // A screen containing an interactive calendar
 
     val calendarState = rememberSelectableCalendarState()
 
@@ -55,8 +55,10 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
                 .padding(it)
         ) {
 
+            // Search bar to change location
             MySearchBar()
 
+            // Calendar widget from boguszpawlowski on GitHub
             SelectableCalendar(
                 calendarState = calendarState,
                 modifier = Modifier.background(color = Color.Gray),
@@ -75,6 +77,7 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
                                      navAlert: () -> Unit = {},
                                      viewModel: WeatherViewModel
 ) {
+    // To be rendered for each day in the month
     val date = state.date
     val selectionState = state.selectionState
 
@@ -94,6 +97,7 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
         border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
         colors = cardColour(isSelected = isSelected, isInRange = viewModel.dateInRange(date.toString()))
     ) {
+        // Day number
         Box(
             contentAlignment = Alignment.TopCenter,
         ) {
@@ -101,6 +105,7 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
         }
     }
 
+    // Weather Icon
     if (viewModel.dateInRange(date.toString())) {
         // If we have weather data for the date...
 
@@ -121,11 +126,18 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
 
 @Composable
 fun cardColour(isSelected: Boolean, isInRange: Boolean): CardColors {
+    // Creates a card colour object with the right attributes
+    // Distinguishes between a selected date and a date with no weather data
+
     if (isSelected and isInRange)
+        // Is selected and we have data
         return CardDefaults.cardColors(contentColor = Purple2)
     if (isSelected)
+        // Is selected and we don't have data
         return CardDefaults.cardColors(contentColor = Purple2, containerColor = Color(0xFF696370))
     if (isInRange)
+        // Isn't selected and we have data
         return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF))
+    // Isn't selected and we don't have date
     return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF), containerColor = Color(0xFF696370))
 }
