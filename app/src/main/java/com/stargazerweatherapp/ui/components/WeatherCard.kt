@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stargazerweatherapp.R
 import com.stargazerweatherapp.data.models.Weather
+import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
 @Composable
-fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
+fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewModel: WeatherViewModel) {
     Card(modifier = modifier.fillMaxWidth()) {
         weather?.let { nonNullWeather ->
             Column(
@@ -41,7 +42,7 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
 
                 Row(verticalAlignment = Alignment.Top,
                     modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Text("17:00",
+                    Text(weatherViewModel.futureWeather.value!![0].getSunset(),
                         textAlign = TextAlign.Left,
                         fontSize = 26.sp
                     )

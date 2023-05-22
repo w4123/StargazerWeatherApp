@@ -86,7 +86,8 @@ fun MainScreen(
             .fillMaxHeight()) {
             WeatherCard(
                 weather = weatherData,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                weatherViewModel = weatherViewModel
             )
             FutureWeatherCardSmall(
                 weatherData = weatherViewModel.futureWeather.value,
