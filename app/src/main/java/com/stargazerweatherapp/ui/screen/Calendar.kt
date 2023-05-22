@@ -26,10 +26,13 @@ import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit.DAYS
+import java.util.function.ToIntFunction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {}, weatherModel: WeatherViewModel) {
+    //
 
     val calendarState = rememberSelectableCalendarState()
 
@@ -98,14 +101,22 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
         }
     }
 
-    if (viewModel.dateInRange(date.toString()))
+    if (viewModel.dateInRange(date.toString())) {
+        // If we have weather data for the date...
+
+        val currentDate = LocalDate.parse(viewModel.futureWeather.value!![0].date)
+        // Calculate the index into the future weather values
+        val between = DAYS.between(currentDate, date).toInt()
+
+        // Add the corresponding icon to the day
         Text(
-            text = stringResource(id = viewModel.currentWeather.value!!.weatherType.icon),
+            text = stringResource(id = viewModel.futureWeather.value!![between].weatherType.icon),
             fontSize = 30.sp,
             fontFamily = FontFamily(Font(R.font.weathericons)),
-            modifier = Modifier.padding(start=10.dp, top=12.dp, bottom = 0.dp),
+            modifier = Modifier.padding(start = 10.dp, top = 12.dp, bottom = 0.dp),
             color = if (isSelected) Purple2 else Color(0xFFFFFFFF)
         )
+    }
 }
 
 @Composable
