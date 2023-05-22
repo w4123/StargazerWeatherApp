@@ -75,11 +75,12 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewMod
                     fontSize = 120.sp,
                     fontFamily = FontFamily(Font(R.font.weathericons))
                 )
-                Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
-                Text(text = "${nonNullWeather.temperature}°C", fontSize = 36.sp)
+                Text(text = nonNullWeather.weatherType.description, fontSize = 26.sp)
+                Text(text = "${nonNullWeather.temperature}°C", fontSize = 26.sp)
 
                 Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
                 Text(text = "Visibility: ${nonNullWeather.visibility}m")
+                Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}")
             }
         }
     }

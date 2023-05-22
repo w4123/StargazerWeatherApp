@@ -13,7 +13,7 @@ data class DailyWeather(
     val cloudCoverAtSunset: Int,
     val visibility: Int,
     val transparency: Transparency,
-    val seeing : Seeing
+    val seeing : Int
 ){
     constructor(date: String,
                 location: Location,
@@ -33,7 +33,7 @@ data class DailyWeather(
         cloudCoverAtSunset,
         visibility,
         Transparency.Average,
-        Seeing.Average
+        5
     )
 
     fun getSunset() : String {
