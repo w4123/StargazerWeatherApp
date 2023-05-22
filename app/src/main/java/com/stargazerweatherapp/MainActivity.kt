@@ -22,6 +22,7 @@ import com.stargazerweatherapp.ui.screen.Glossary
 import com.stargazerweatherapp.ui.screens.MainScreen
 import com.stargazerweatherapp.ui.theme.StargazerWeatherAppTheme
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
     var globalViewModel: WeatherViewModel = WeatherViewModel()
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     composable("NewLocation/{locationName}",
                     arguments = listOf(navArgument("locationName") { type = NavType.StringType })
                     ){ backStackEntry ->
-                        val locationName = backStackEntry.arguments?.getString("locationName");
+                        val locationName = backStackEntry.arguments?.getString("locationName")
                         Log.d("New location Navigation","Navigating to $locationName")
                         globalViewModel.fetchWeatherData(locationName!!)
                         getNewMainScreen(navController)
@@ -76,9 +77,17 @@ class MainActivity : ComponentActivity() {
                     composable("calendar") {
                         CalendarScreen (
                             { navController.popBackStack() },
-                            { navController.navigate("alerts") },
+                            { date: String -> navController.navigate("Alerts/$date") },
                             globalViewModel,
                         )
+                    }
+
+                    composable("Alerts/{date}",
+                        arguments = listOf(navArgument("date") { type = NavType.StringType })
+                    )
+                    {backStackEntry ->
+                        val date = backStackEntry.arguments?.getString("date");
+                        AlertPage(navigateBack = { navController.popBackStack() }, date = LocalDate.parse(date))
                     }
 
                     composable("alerts") {

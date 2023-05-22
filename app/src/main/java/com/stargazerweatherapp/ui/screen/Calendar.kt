@@ -44,7 +44,7 @@ import java.util.*
 @Composable
 fun CalendarScreen(
     navigateBack: () -> Unit = {},
-    navigateAlerts: () -> Unit = {},
+    navigateAlerts: (date: String) -> Unit = {},
     weatherModel: WeatherViewModel,
 ) {
     // A screen containing an interactive calendar
@@ -98,7 +98,7 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
                                      modifier: Modifier = Modifier,
                                      currentDayColor: Color = Teal200,
                                      onClick: (LocalDate) -> Unit = {},
-                                     navAlert: () -> Unit = {},
+                                     navAlert: (location: String) -> Unit = {},
                                      viewModel: WeatherViewModel
 ) {
     // To be rendered for each day in the month
@@ -114,8 +114,7 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
             .clickable {
                 onClick(date)
                 selectionState.onDateSelected(date)
-                navAlert()
-                println(date)
+                navAlert(date.toString())
             },
         elevation = if (state.isFromCurrentMonth) CardDefaults.cardElevation(4.dp) else CardDefaults.cardElevation(0.dp),
         border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
