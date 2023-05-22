@@ -1,6 +1,7 @@
 package com.stargazerweatherapp.ui.screen
 
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -66,7 +67,7 @@ fun CalendarScreen(
         ) {
 
             // Search bar to change location
-            MySearchBar()
+            MySearchBar(navigateToNewLocation = {location: String -> toNewLocation(location, weatherModel)})
 
             Text(text = weatherModel.currentLocation.value!!.name,
                 fontSize = 36.sp,
@@ -157,4 +158,9 @@ fun cardColour(isSelected: Boolean, isInRange: Boolean): CardColors {
         return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF))
     // Isn't selected and we don't have date
     return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF), containerColor = Color(0xFF696370))
+}
+
+fun toNewLocation(location: String, weatherModel: WeatherViewModel){
+    Log.d("New location Navigation","Navigating to $location")
+    weatherModel.fetchWeatherData(location)
 }
