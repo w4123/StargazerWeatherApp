@@ -3,20 +3,26 @@ package com.stargazerweatherapp.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stargazerweatherapp.R
@@ -25,10 +31,14 @@ import com.stargazerweatherapp.ui.theme.*
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
+import io.github.boguszpawlowski.composecalendar.header.MonthState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
+import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +84,9 @@ fun CalendarScreen(
             SelectableCalendar(
                 calendarState = calendarState,
                 modifier = Modifier.background(color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(3.dp),
-                dayContent = { DayRendering(it, navAlert = navigateAlerts, viewModel = weatherModel) }
+                dayContent = { DayRendering(it, navAlert = navigateAlerts, viewModel = weatherModel)},
+                monthHeader = { MonthRendering(it) },
+                daysOfWeekHeader = { DaysOfWeekRendering(it) },
             )
         }
     }
@@ -136,6 +148,66 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
             modifier = Modifier.padding(start = 10.dp, top = 12.dp, bottom = 0.dp),
             color = if (isSelected) Purple2 else Color(0xFFFFFFFF)
         )
+    }
+}
+
+@Composable
+fun MonthRendering(monthState: MonthState,
+                   modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(
+            modifier = Modifier.testTag("Decrement"),
+            onClick = { monthState.currentMonth = monthState.currentMonth.minusMonths(1) }
+        ) {
+            Image(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                contentDescription = "Previous",
+            )
+        }
+        Text(
+            modifier = Modifier.testTag("MonthLabel"),
+            text = monthState.currentMonth.month
+                .getDisplayName(TextStyle.FULL, Locale.getDefault())
+                .lowercase()
+                .replaceFirstChar { it.titlecase() },
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = monthState.currentMonth.year.toString(), style = MaterialTheme.typography.headlineMedium)
+        IconButton(
+            modifier = Modifier.testTag("Increment"),
+            onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) }
+        ) {
+            Image(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                contentDescription = "Next",
+            )
+        }
+    }
+}
+
+@Composable
+fun DaysOfWeekRendering(
+    daysOfWeek: List<DayOfWeek>,
+    modifier: Modifier = Modifier,
+) {
+    Row(modifier = modifier) {
+        daysOfWeek.forEach { dayOfWeek ->
+            Text(
+                textAlign = TextAlign.Center,
+                text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                modifier = modifier
+                    .weight(1f)
+                    .wrapContentHeight()
+            )
+        }
     }
 }
 
