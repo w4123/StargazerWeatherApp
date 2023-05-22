@@ -13,9 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,7 +29,6 @@ import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
-import java.util.function.ToIntFunction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -147,17 +144,21 @@ fun cardColour(isSelected: Boolean, isInRange: Boolean): CardColors {
     // Creates a card colour object with the right attributes
     // Distinguishes between a selected date and a date with no weather data
 
+    val selectedCol = Purple2
+    val unSelectedCol = Color(0xFFFFFFFF)
+    val noDataCol = Color(0xFF696370)
+
     if (isSelected and isInRange)
         // Is selected and we have data
-        return CardDefaults.cardColors(contentColor = Purple2)
+        return CardDefaults.cardColors(contentColor = selectedCol)
     if (isSelected)
         // Is selected and we don't have data
-        return CardDefaults.cardColors(contentColor = Purple2, containerColor = Color(0xFF696370))
+        return CardDefaults.cardColors(contentColor = selectedCol, containerColor = noDataCol)
     if (isInRange)
         // Isn't selected and we have data
-        return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF))
+        return CardDefaults.cardColors(contentColor = unSelectedCol)
     // Isn't selected and we don't have date
-    return CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF), containerColor = Color(0xFF696370))
+    return CardDefaults.cardColors(contentColor = unSelectedCol, containerColor = noDataCol)
 }
 
 fun toNewLocation(location: String, weatherModel: WeatherViewModel){
