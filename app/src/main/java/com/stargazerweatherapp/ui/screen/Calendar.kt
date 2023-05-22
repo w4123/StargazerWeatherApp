@@ -1,9 +1,6 @@
 package com.stargazerweatherapp.ui.screen
 
 
-import android.content.res.Resources.Theme
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,23 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import com.stargazerweatherapp.R
-import com.stargazerweatherapp.data.models.Location
-import com.stargazerweatherapp.data.models.Weather
-import com.stargazerweatherapp.data.models.WeatherType
-import com.stargazerweatherapp.ui.components.WeatherCard
 import com.stargazerweatherapp.ui.screens.MySearchBar
 import com.stargazerweatherapp.ui.theme.*
 import com.stargazerweatherapp.viewmodels.WeatherViewModel
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
-import io.github.boguszpawlowski.composecalendar.day.DefaultDay
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
-import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.LocalDate
 
@@ -68,7 +57,7 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
             SelectableCalendar(
                 calendarState = calendarState,
                 modifier = Modifier.background(color = Color.Gray),
-                dayContent = { addSomething(it, navAlert = navigateAlerts, viewModel = weatherModel) }
+                dayContent = { DayRendering(it, navAlert = navigateAlerts, viewModel = weatherModel) }
             )
         }
     }
@@ -76,9 +65,8 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
 }
 
 @Composable
-fun <T: SelectionState> addSomething(state: DayState<T>,
+fun <T: SelectionState> DayRendering(state: DayState<T>,
                                      modifier: Modifier = Modifier,
-                                     selectionColor: Color = Purple2,
                                      currentDayColor: Color = Teal200,
                                      onClick: (LocalDate) -> Unit = {},
                                      navAlert: () -> Unit = {},
@@ -101,7 +89,6 @@ fun <T: SelectionState> addSomething(state: DayState<T>,
             },
         elevation = if (state.isFromCurrentMonth) CardDefaults.cardElevation(4.dp) else CardDefaults.cardElevation(0.dp),
         border = if (state.isCurrentDay) BorderStroke(1.dp, currentDayColor) else null,
-        //colors = if (isSelected) CardDefaults.cardColors(contentColor = Purple2) else CardDefaults.cardColors(contentColor = Color(0xFFFFFFFF)),
         colors = cardColour(isSelected = isSelected, isInRange = viewModel.dateInRange(date.toString()))
     ) {
         Box(
