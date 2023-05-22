@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         CalendarScreen (
                             { navController.popBackStack() },
                             { navController.navigate("alerts") },
-                            globalViewModel
+                            globalViewModel,
                         )
                     }
 
@@ -106,6 +106,7 @@ class MainActivity : ComponentActivity() {
             globalViewModel
         )
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

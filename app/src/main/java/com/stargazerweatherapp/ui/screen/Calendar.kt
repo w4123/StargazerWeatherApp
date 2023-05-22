@@ -5,13 +5,16 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,21 +34,27 @@ import java.util.function.ToIntFunction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {}, weatherModel: WeatherViewModel) {
+fun CalendarScreen(
+    navigateBack: () -> Unit = {},
+    navigateAlerts: () -> Unit = {},
+    weatherModel: WeatherViewModel,
+) {
     // A screen containing an interactive calendar
 
     val calendarState = rememberSelectableCalendarState()
 
-    Scaffold(topBar = {
-        TopAppBar(title = {
-            Text("Calendar")
+    Scaffold(
+        topBar = {
+            TopAppBar(title = {
+                Text("Calendar")
+            },
+                navigationIcon = {
+                    IconButton(onClick = navigateBack) {
+                        Icon(Icons.Default.ArrowBack, "Back")
+                    }
+                })
         },
-            navigationIcon = {
-                IconButton(onClick = navigateBack) {
-                    Icon(Icons.Default.ArrowBack, "Back")
-                }
-            })
-    }
+
     ) {
 
         Column(
@@ -53,15 +62,20 @@ fun CalendarScreen(navigateBack: () -> Unit = {}, navigateAlerts: () -> Unit = {
                 .background(color = Color.DarkGray)
                 .fillMaxHeight()
                 .padding(it)
+                .padding(10.dp)
         ) {
 
             // Search bar to change location
             MySearchBar()
 
+            Text(text = weatherModel.currentLocation.value!!.name,
+                fontSize = 36.sp,
+                modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
+
             // Calendar widget from boguszpawlowski on GitHub
             SelectableCalendar(
                 calendarState = calendarState,
-                modifier = Modifier.background(color = Color.Gray),
+                modifier = Modifier.background(color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(3.dp),
                 dayContent = { DayRendering(it, navAlert = navigateAlerts, viewModel = weatherModel) }
             )
         }
@@ -101,7 +115,10 @@ fun <T: SelectionState> DayRendering(state: DayState<T>,
         Box(
             contentAlignment = Alignment.TopCenter,
         ) {
-            Text(text = date.dayOfMonth.toString())
+            Text(
+                text = date.dayOfMonth.toString(),
+                modifier = Modifier.padding(start = 2.dp)
+            )
         }
     }
 
