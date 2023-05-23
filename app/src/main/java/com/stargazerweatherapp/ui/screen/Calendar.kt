@@ -20,9 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.Paragraph
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stargazerweatherapp.R
@@ -39,6 +44,7 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
 import java.util.*
+import kotlin.text.Typography.bullet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,30 +70,95 @@ fun CalendarScreen(
         },
 
     ) {
+         if (weatherModel.futureWeather.value!=null) {
+             Column(
+                 Modifier
+                     .background(color = Color.DarkGray)
+                     .fillMaxHeight()
+                     .padding(it)
+                     .padding(10.dp)
+             ) {
 
-        Column(
-            Modifier
-                .background(color = Color.DarkGray)
-                .fillMaxHeight()
-                .padding(it)
-                .padding(10.dp)
-        ) {
+                 // Search bar to change location
+                 MySearchBar(navigateToNewLocation = { location: String ->
+                     toNewLocation(
+                         location,
+                         weatherModel
+                     )
+                 })
 
-            // Search bar to change location
-            MySearchBar(navigateToNewLocation = {location: String -> toNewLocation(location, weatherModel)})
+                 // Location name
+                 Text(
+                     text = weatherModel.currentLocation.value!!.name,
+                     fontSize = 36.sp,
+                     modifier = Modifier
+                         .align(Alignment.Start)
+                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                 )
 
-            Text(text = weatherModel.currentLocation.value!!.name,
-                fontSize = 36.sp,
-                modifier = Modifier.align(Alignment.Start).padding(horizontal=16.dp, vertical = 8.dp))
+                 // Calendar widget from boguszpawlowski on GitHub
+                 SelectableCalendar(
+                     calendarState = calendarState,
+                     modifier = Modifier
+                         .background(
+                             color = Color.Gray,
+                             shape = RoundedCornerShape(10.dp)
+                         )
+                         .padding(3.dp),
+                     dayContent = {
+                         DayRendering(
+                             it,
+                             navAlert = navigateAlerts,
+                             viewModel = weatherModel
+                         )
+                     },
+                     monthHeader = { MonthRendering(it) },
+                     daysOfWeekHeader = { DaysOfWeekRendering(it) },
+                 )
+             }
+         }
+        else{
+             Column(
+                 Modifier
+                     .background(color = Color.DarkGray)
+                     .fillMaxHeight()
+                     .fillMaxWidth()
+                     .padding(it)
+                     .padding(10.dp)
+             ) {
+                 Text(
+                     text = "Could not fetch data", fontSize = 36.sp,
+                     modifier = Modifier
+                         .align(Alignment.Start)
+                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                 )
+                 Text(
+                     text = "Have you tried:", fontSize = 18.sp,
+                     modifier = Modifier
+                         .align(Alignment.Start)
+                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                 )
 
-            // Calendar widget from boguszpawlowski on GitHub
-            SelectableCalendar(
-                calendarState = calendarState,
-                modifier = Modifier.background(color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(3.dp),
-                dayContent = { DayRendering(it, navAlert = navigateAlerts, viewModel = weatherModel)},
-                monthHeader = { MonthRendering(it) },
-                daysOfWeekHeader = { DaysOfWeekRendering(it) },
-            )
+
+                 val messages = listOf(
+                     "Checking your wi-fi connection",
+                     "Turning on data usage",
+                     "Restarting this app"
+                 )
+                 val paragraphStyle = ParagraphStyle(textIndent = TextIndent(restLine = 12.sp))
+                 Text(
+                     buildAnnotatedString {
+                         messages.forEach {
+                             withStyle(style = paragraphStyle) {
+                                 append(bullet)
+                                 append("\t\t")
+                                 append(it)
+                             }
+                         }
+                     }
+                 )
+
+             }
         }
     }
 
