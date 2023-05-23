@@ -110,6 +110,7 @@ fun MainScreen(
                 Modifier
                     .background(color = Color.DarkGray)
                     .fillMaxHeight()
+                    .fillMaxWidth()
                     .padding(it)
                     .padding(10.dp)
             ) {

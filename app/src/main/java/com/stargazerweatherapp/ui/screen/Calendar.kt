@@ -87,6 +87,7 @@ fun CalendarScreen(
                      )
                  })
 
+                 // Location name
                  Text(
                      text = weatherModel.currentLocation.value!!.name,
                      fontSize = 36.sp,
@@ -121,6 +122,7 @@ fun CalendarScreen(
                  Modifier
                      .background(color = Color.DarkGray)
                      .fillMaxHeight()
+                     .fillMaxWidth()
                      .padding(it)
                      .padding(10.dp)
              ) {
