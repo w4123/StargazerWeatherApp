@@ -20,6 +20,10 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
 
 class WeatherViewModel(
+    /*
+        A view model to fetch weather data. This contains a repository for the weather data
+        It has methods that operate of dates to check data.
+     */
     private val weatherRepository: WeatherRepository  =
         if (BuildConfig.DEBUG) WeatherRepositoryMockup() else
             WeatherRepositoryImpl(),

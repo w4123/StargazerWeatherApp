@@ -26,6 +26,7 @@ import org.w3c.dom.Text
 @Preview
 fun Glossary(navigateBack: () -> Unit = {})
 {
+    //Glossary page. This is mostly filler text but is set to show how other words are in bolds.
     Scaffold(
         topBar = {
             TopAppBar(title = {

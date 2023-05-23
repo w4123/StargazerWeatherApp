@@ -25,6 +25,7 @@ import com.stargazerweatherapp.viewmodels.WeatherViewModel
 import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
+    //The main activity is the root of the app used for navigation
     var globalViewModel: WeatherViewModel = WeatherViewModel()
 
     @Preview
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
             Surface {
                 val navController = rememberNavController()
 
+                //Sets up on navigation
                 NavHost(navController, startDestination = "main") {
                     composable("main") {
                         navController.navigate("NewLocation/Cambridge", navOptions = navOptions {
@@ -116,7 +118,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-
+    //Sets the main screen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
