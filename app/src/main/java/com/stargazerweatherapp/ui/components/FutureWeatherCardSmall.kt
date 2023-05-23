@@ -26,10 +26,15 @@ import com.stargazerweatherapp.data.models.DailyWeather
 
 @Composable
 fun FutureWeatherCardSmall(
+    /*
+        A compose component that acts as a small card on the bottom of the page
+        It is set up so that if clicked it will create a new page with a large weather card on the page
+     */
     weatherData: List<DailyWeather>?,
     navigateToFutureWeather: (date: String) -> Unit,
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
+    //Scaffold for page
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -45,7 +50,7 @@ fun FutureWeatherCardSmall(
 
 @Composable
 fun WeatherItem(weather: DailyWeather, navigateToFutureWeather: (date: String) -> Unit) {
-    Column(
+    Column(//Item for displaying data
         modifier = Modifier
             .clickable {
                 navigateToFutureWeather(weather.date)

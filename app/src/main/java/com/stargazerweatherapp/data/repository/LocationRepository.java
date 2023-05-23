@@ -20,9 +20,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class LocationRepository {
+    /*
+    A repository for storing all the of the locations you can go to. This is fetched from the met office
+    Methods include a fetch location data which gets the cached data.
+     */
     static private List<Location> cachedLocationData = null;
 
     public List<Location> getLocationData() {
+        //Check the cache for the weather data
         if (cachedLocationData != null) return cachedLocationData;
 
         OkHttpClient client = new OkHttpClient();
@@ -43,6 +48,7 @@ public class LocationRepository {
                         currLoc.getDouble("latitude"),
                         currLoc.getDouble("longitude")));
             }
+            //cache the result
             cachedLocationData = result;
             return result;
         }

@@ -3,7 +3,7 @@ package com.stargazerweatherapp.data.models
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class DailyWeather(
+data class DailyWeather(//Class for storing data for days in the
     val date: String,
     val location: Location,
     val temperatureMax : Double,
@@ -36,7 +36,7 @@ data class DailyWeather(
         5
     )
 
-    fun getSunset() : String {
+    fun getSunset() : String {//Gets the sunset time string
         return sunsetTime.takeLast(5);
     }
 }

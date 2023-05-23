@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateGetter {
+public class DateGetter {//Functional Class to get a list of all the days the next n days, defaulting to 365
     public static List<LocalDate> getDates(int NumberOfDates){
         ArrayList<LocalDate> dates = new ArrayList<>();
         for (int i = 0; i < NumberOfDates; ++i) {

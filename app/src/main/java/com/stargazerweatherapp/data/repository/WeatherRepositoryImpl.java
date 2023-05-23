@@ -22,7 +22,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
-
+    /*
+        This is the weather repository that actually fetches the data from the OPEN-METEO API
+        It gets the DATA is JSON format and processes
+        It returns null if data cannot be found
+        There are two methods, one gets the weather for today
+        One gets for up to a week in advance
+     */
     public Weather getCurrentWeatherData(Location location) {
 
         OkHttpClient client = new OkHttpClient();

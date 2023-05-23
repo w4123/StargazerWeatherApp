@@ -1,6 +1,6 @@
 package com.stargazerweatherapp.data.models;
 
-public enum Seeing {
+public enum Seeing {//An enum for seeing values
     Bad,
     Poor,
     Average,

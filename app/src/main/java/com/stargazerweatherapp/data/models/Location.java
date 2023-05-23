@@ -1,11 +1,12 @@
 package com.stargazerweatherapp.data.models;
 
+import androidx.annotation.NonNull;
 import androidx.compose.runtime.Immutable;
 
 import java.util.Objects;
 
 @Immutable
-public class Location {
+public class Location {//Location with record for name lat and long.
     private final String name;
     private final Double latitude;
     private final Double longitude;
@@ -41,6 +42,7 @@ public class Location {
         return Objects.hash(name, latitude, longitude);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Location{" +
