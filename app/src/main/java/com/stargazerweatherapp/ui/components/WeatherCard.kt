@@ -1,11 +1,13 @@
 package com.stargazerweatherapp.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -41,7 +43,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewModel: WeatherViewModel, navigateToGlossary : ()-> Unit) {
-    var tooltipState by remember{ mutableStateOf(PlainTooltipState()) }
+    var tooltipStateCloudCover by remember{ mutableStateOf(PlainTooltipState()) }
+    var tooltipStateVisibility by remember{ mutableStateOf(PlainTooltipState()) }
+    var tooltipStateTransparency by remember{ mutableStateOf(PlainTooltipState()) }
     val scope = rememberCoroutineScope()
     //A card for the current weather used in the main page, it takes some weather and displays it
     Card(modifier = modifier.fillMaxWidth()) {
@@ -100,20 +104,19 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewMod
                 }
                 Text(
                     text = stringResource(id = nonNullWeather.weatherType.icon),
-                    fontSize = 70.sp,
+                    fontSize = 128.sp,
                     fontFamily = FontFamily(Font(R.font.weathericons))
                 )
                 Text(text = nonNullWeather.weatherType.description, fontSize = 26.sp)
                 Text(text = "${nonNullWeather.temperature}°C", fontSize = 26.sp)
 
-                TextButton(onClick = {
-                    scope.launch {
-                        tooltipState.show()
-                    }
+                Spacer(Modifier.height(16.dp))
 
-                }) {
-                    Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
-                }
+                Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%", modifier = Modifier.clickable {
+                    scope.launch {
+                        tooltipStateCloudCover.show()
+                    }
+                })
 
                 PlainTooltipBox(tooltip = {
                         Column(Modifier.padding(12.dp)) {
@@ -127,14 +130,47 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewMod
                                 append(" euismod eleifend arcu eget placerat. Donec interdum mauris sit amet mi pharetra faucibus")
                             }
                         )
-                    } }, tooltipState = tooltipState) {}
+                    } }, tooltipState = tooltipStateCloudCover) {}
 
-                TextButton(onClick = navigateToGlossary) {
-                    Text(text = "Visibility: ${nonNullWeather.visibility}m")
-                }
-                TextButton(onClick = navigateToGlossary) {
-                    Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}")
-                }
+                Text(text = "Visibility: ${nonNullWeather.visibility}m", modifier = Modifier.clickable {
+                    scope.launch {
+                        tooltipStateVisibility.show()
+                    }
+                })
+
+                PlainTooltipBox(tooltip = {
+                    Column(Modifier.padding(12.dp)) {
+                        Text(text = "Visibility", fontWeight= FontWeight.Bold)
+                        Text(
+                            buildAnnotatedString {
+                                append("Lorem ipsum dolor sit amet, consectetur adipiscing elit ")
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                                    append("visibility")
+                                }
+                                append(" euismod eleifend arcu eget placerat. Donec interdum mauris sit amet mi pharetra faucibus")
+                            }
+                        )
+                    } }, tooltipState = tooltipStateVisibility) {}
+
+                Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}", modifier = Modifier.clickable {
+                    scope.launch {
+                        tooltipStateTransparency.show()
+                    }
+                })
+
+                PlainTooltipBox(tooltip = {
+                    Column(Modifier.padding(12.dp)) {
+                        Text(text = "Transparency", fontWeight= FontWeight.Bold)
+                        Text(
+                            buildAnnotatedString {
+                                append("Lorem ipsum dolor sit amet, consectetur adipiscing elit ")
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                                    append("cloud cover")
+                                }
+                                append(" euismod eleifend arcu eget placerat. Donec interdum mauris sit amet mi pharetra faucibus")
+                            }
+                        )
+                    } }, tooltipState = tooltipStateTransparency) {}
             }
         }
     }
