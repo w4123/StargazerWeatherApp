@@ -26,6 +26,8 @@ import com.stargazerweatherapp.data.models.DailyWeather
 
 @Composable
 fun FutureWeatherCardLarge(weather: DailyWeather?, modifier: Modifier = Modifier, navigateToGlossary : () -> Unit) {
+    //A Large weather card for showing weather in a day in the future,
+    // This matches the style of the weather card to create a more universal theme
     Card(modifier = modifier.fillMaxWidth()) {
         weather?.let { nonNullWeather ->
             Column(

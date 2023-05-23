@@ -6,6 +6,10 @@ import com.stargazerweatherapp.R;
 
 @Immutable
 public class WeatherType {
+    /*
+    This class stores the values for different types of weather based on the API we use.
+    This has methods for getting a text description and a text symbol
+     */
     private final Integer id;
     public WeatherType(Integer id) {
         this.id = id;

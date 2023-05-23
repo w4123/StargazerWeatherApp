@@ -68,6 +68,10 @@ fun AlertPage(
     date: LocalDate = LocalDate.now(),
     snackBar: Boolean = false
 ) {
+    /*
+        This page would allow you to set alerts but in the name of prototyping this current isn't working
+        It allows you to be notified on a variety of reasons that our stakeholders would be used for
+     */
     val ThingsToBeNotifiedOf = remember {
         listOf(
             "Conditions Heavily Unfavourable to Stargazing",
@@ -102,6 +106,7 @@ fun AlertPage(
                     fontSize = 16.sp
                 )
             }
+            //Text box to select the date from a list. This is fetched from the date getter class
             item {
                 DateSelector(date)
             }
@@ -127,6 +132,7 @@ fun AlertPage(
                     )
                 }
             }
+            //Clearly clickable button that says set a alert.
             item {
                 val context = LocalContext.current;
                 Button(onClick = {

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +26,7 @@ import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
 @Composable
 fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewModel: WeatherViewModel, navigateToGlossary : ()-> Unit) {
+    //A card for the current weather used in the main page, it takes some weather and displays it
     Card(modifier = modifier.fillMaxWidth()) {
         weather?.let { nonNullWeather ->
             Column(
@@ -79,16 +79,9 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewMod
                 Text(text = nonNullWeather.weatherType.description, fontSize = 26.sp)
                 Text(text = "${nonNullWeather.temperature}°C", fontSize = 26.sp)
 
-                TextButton(onClick = navigateToGlossary) {
-                    Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
-                }
-
-                TextButton(onClick = navigateToGlossary) {
-                    Text(text = "Visibility: ${nonNullWeather.visibility}m")
-                }
-                TextButton(onClick = navigateToGlossary) {
-                    Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}")
-                }
+                Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
+                Text(text = "Visibility: ${nonNullWeather.visibility}m")
+                Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}")
             }
         }
     }
