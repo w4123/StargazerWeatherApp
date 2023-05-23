@@ -40,13 +40,13 @@ class WeatherViewModel(
     fun dateInRange(dateString : String) : Boolean {
         val date = LocalDate.parse(dateString)
         val startDate = LocalDate.parse(futureWeather.value!![0].date)
-        val between = DAYS.between(date,startDate)
+        val between = DAYS.between(startDate,date)
         return (between >= 0 && between < futureWeather.value!!.size)
 
     }
 
     fun dateIsCurrent(dateString: String) : Boolean{
-        return (dateString.equals(futureWeather.value!![0].date));
+        return (dateString.equals(futureWeather.value!![0].date))
     }
 
 
@@ -54,7 +54,7 @@ class WeatherViewModel(
         if (!date.equals(null)) {
             for (dailyWeather in futureWeather.value!!) {
                 if (dailyWeather.date.equals(date)) {
-                    return dailyWeather;
+                    return dailyWeather
                 }
             }
         }
@@ -71,7 +71,7 @@ class WeatherViewModel(
                     val location = locationRepository.locationData.find {
                         it.name.equals(locationName)
                     }!!
-                    currentWeather.value = weatherRepository.getCurrentWeatherData(location);
+                    currentWeather.value = weatherRepository.getCurrentWeatherData(location)
                     futureWeather.value = weatherRepository.getFutureWeatherData(location)
                     currentLocation.value = location
                 }

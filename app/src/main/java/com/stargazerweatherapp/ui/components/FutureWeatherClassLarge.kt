@@ -75,11 +75,12 @@ fun FutureWeatherCardLarge(weather: DailyWeather?, modifier: Modifier = Modifier
                     fontSize = 120.sp,
                     fontFamily = FontFamily(Font(R.font.weathericons))
                 )
-                Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
-                Text(text = "${nonNullWeather.temperatureMin}°C", fontSize = 36.sp)
+                Text(text = nonNullWeather.weatherType.description, fontSize = 26.sp)
+                Text(text = "${nonNullWeather.temperatureMin}°C", fontSize = 26.sp)
 
                 Text(text = "Cloud Cover: ${nonNullWeather.cloudCoverAtSunset}%")
                 Text(text = "Visibility: ${nonNullWeather.visibility}m")
+                Text(text = "Transparency: ${nonNullWeather.transparency}")
             }
         }
     }

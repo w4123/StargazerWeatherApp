@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stargazerweatherapp.R
 import com.stargazerweatherapp.data.models.Weather
+import com.stargazerweatherapp.viewmodels.WeatherViewModel
 
 @Composable
-fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
+fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewModel: WeatherViewModel) {
     Card(modifier = modifier.fillMaxWidth()) {
         weather?.let { nonNullWeather ->
             Column(
@@ -41,7 +42,7 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
 
                 Row(verticalAlignment = Alignment.Top,
                     modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Text("17:00",
+                    Text(weatherViewModel.futureWeather.value!![0].getSunset(),
                         textAlign = TextAlign.Left,
                         fontSize = 26.sp
                     )
@@ -74,11 +75,12 @@ fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier) {
                     fontSize = 120.sp,
                     fontFamily = FontFamily(Font(R.font.weathericons))
                 )
-                Text(text = nonNullWeather.weatherType.description, fontSize = 36.sp)
-                Text(text = "${nonNullWeather.temperature}°C", fontSize = 36.sp)
+                Text(text = nonNullWeather.weatherType.description, fontSize = 26.sp)
+                Text(text = "${nonNullWeather.temperature}°C", fontSize = 26.sp)
 
                 Text(text = "Cloud Cover: ${nonNullWeather.cloudCover}%")
                 Text(text = "Visibility: ${nonNullWeather.visibility}m")
+                Text(text = "Transparency: ${weatherViewModel.futureWeather.value!![0].transparency}")
             }
         }
     }

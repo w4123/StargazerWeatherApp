@@ -11,8 +11,31 @@ data class DailyWeather(
     val sunsetTime: String,
     val weatherType: WeatherType,
     val cloudCoverAtSunset: Int,
-    val visibility: Int
+    val visibility: Int,
+    val transparency: Transparency,
+    val seeing : Int
 ){
+    constructor(date: String,
+                location: Location,
+                temperatureMax : Double,
+                temperatureMin : Double,
+                sunsetTime: String,
+                weatherType: WeatherType,
+                cloudCoverAtSunset: Int,
+                visibility: Int)
+            : this(
+        date,
+        location,
+        temperatureMax,
+        temperatureMin,
+        sunsetTime,
+        weatherType,
+        cloudCoverAtSunset,
+        visibility,
+        Transparency.Average,
+        5
+    )
+
     fun getSunset() : String {
         return sunsetTime.takeLast(5);
     }
