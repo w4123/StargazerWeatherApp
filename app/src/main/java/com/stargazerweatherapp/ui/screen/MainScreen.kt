@@ -2,6 +2,7 @@ package com.stargazerweatherapp.ui.screens
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,9 +38,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.isContainer
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.stargazerweatherapp.data.models.Weather
 import com.stargazerweatherapp.data.repository.LocationRepository
@@ -80,19 +87,65 @@ fun MainScreen(
             )
         }
     ) {
-        Column(modifier = Modifier
-            .padding(it)
-            .padding(horizontal = 16.dp)
-            .fillMaxHeight()) {
-            WeatherCard(
-                weather = weatherData,
-                modifier = Modifier.weight(1f),
-                weatherViewModel = weatherViewModel
-            )
-            FutureWeatherCardSmall(
-                weatherData = weatherViewModel.futureWeather.value,
-                navigateToFutureWeather
-            )
+        if (weatherViewModel.futureWeather.value!=null) {
+            Column(
+                modifier = Modifier
+                    .padding(it)
+                    .padding(horizontal = 16.dp)
+                    .fillMaxHeight()
+            ) {
+                WeatherCard(
+                    weather = weatherData,
+                    modifier = Modifier.weight(1f),
+                    weatherViewModel = weatherViewModel
+                )
+                FutureWeatherCardSmall(
+                    weatherData = weatherViewModel.futureWeather.value,
+                    navigateToFutureWeather
+                )
+            }
+        }
+        else{
+            Column(
+                Modifier
+                    .background(color = Color.DarkGray)
+                    .fillMaxHeight()
+                    .padding(it)
+                    .padding(10.dp)
+            ) {
+                Text(
+                    text = "Could not fetch data", fontSize = 36.sp,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+                Text(
+                    text = "Have you tried:", fontSize = 18.sp,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+
+
+                val messages = listOf(
+                    "Checking your wi-fi connection",
+                    "Turning on data usage",
+                    "Restarting this app"
+                )
+                val paragraphStyle = ParagraphStyle(textIndent = TextIndent(restLine = 12.sp))
+                Text(
+                    buildAnnotatedString {
+                        messages.forEach {
+                            withStyle(style = paragraphStyle) {
+                                append(Typography.bullet)
+                                append("\t\t")
+                                append(it)
+                            }
+                        }
+                    }
+                )
+
+            }
         }
     }
 
