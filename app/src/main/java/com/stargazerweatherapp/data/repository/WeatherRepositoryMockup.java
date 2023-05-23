@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherRepositoryMockup implements WeatherRepository{
+    /*
+        A model that returns some dummy weather data for cambridge based on the weather on the 16th may 2022
+     */
     final double latitude = 52.1937;
     final double longitude = 0.1268;
 

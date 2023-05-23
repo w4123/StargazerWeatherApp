@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
 fun WeatherCard(weather: Weather?, modifier: Modifier = Modifier, weatherViewModel: WeatherViewModel, navigateToGlossary : ()-> Unit) {
     var tooltipState by remember{ mutableStateOf(PlainTooltipState()) }
     val scope = rememberCoroutineScope()
+    //A card for the current weather used in the main page, it takes some weather and displays it
     Card(modifier = modifier.fillMaxWidth()) {
         weather?.let { nonNullWeather ->
             Column(
