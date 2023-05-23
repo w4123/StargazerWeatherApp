@@ -87,7 +87,8 @@ fun MainScreen(
             WeatherCard(
                 weather = weatherData,
                 modifier = Modifier.weight(1f),
-                weatherViewModel = weatherViewModel
+                weatherViewModel = weatherViewModel,
+                navigateToGlossary
             )
             FutureWeatherCardSmall(
                 weatherData = weatherViewModel.futureWeather.value,

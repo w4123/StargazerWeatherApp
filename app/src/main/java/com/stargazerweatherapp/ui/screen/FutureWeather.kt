@@ -65,7 +65,8 @@ fun FutureWeather(
             .fillMaxHeight()) {
             FutureWeatherCardLarge(
                 weather = weatherData,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                navigateToGlossary
             )
             FutureWeatherCardSmall(
                 weatherData = weatherViewModel.futureWeather.value,
