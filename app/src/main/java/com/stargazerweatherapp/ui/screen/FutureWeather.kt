@@ -40,12 +40,14 @@ fun FutureWeather(
     navigateToCalendarScreen: () -> Unit,
     weatherViewModel: WeatherViewModel
 ) {
+    //A page that allows you see weather for days in future
     var menuExpanded by remember { mutableStateOf(false) }
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
             MySearchBar(
                 leadingButton = {
+                    //Dropdown menu
                     IconButton(onClick = { menuExpanded = !menuExpanded }, modifier = it) {
                         Icon(Icons.Default.Menu, "Menu")
                     }
@@ -60,6 +62,7 @@ fun FutureWeather(
             )
         }
     ) {
+        //Pages showing one large and many small weather cards
         Column(modifier = Modifier
             .padding(it).padding(horizontal = 16.dp)
             .fillMaxHeight()) {

@@ -58,6 +58,8 @@ import com.stargazerweatherapp.viewmodels.WeatherViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+    //The main screen. This is the opening point of the app and displays todays weather
+    //It links to other days weather and has a menu for access to the calender and other pages
     navigateToGlossary: () -> Unit,
     navigateToAlertsScreen: () -> Unit,
     navigateToCalendarScreen: () -> Unit,
@@ -156,6 +158,8 @@ fun MainScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
+//Search bar that searches the location repository
 fun MySearchBar(
     leadingButton : @Composable (modifier : Modifier) -> Unit = {},
     navigateToNewLocation: (location: String) -> Unit = {}
